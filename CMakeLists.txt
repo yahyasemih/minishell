@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.23)
+project(minishell C)
+
+set(CMAKE_C_STANDARD 99)
+
+add_executable(minishell main.c minishell.h tokens.c tokens.h parsing.c parsing.h parsing_utils.c parsing_utils.h utilities.c utilities.h commands.c commands.h string_utils.c string_utils.h)
+target_link_libraries(minishell readline)
