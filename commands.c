@@ -41,8 +41,10 @@ t_command	*new_command(void)
 	command->cmd = NULL;
 	command->nb_args = 0;
 	command->input.type = STDIN;
+	command->input.fd = -1;
 	command->input.value = NULL;
 	command->output.type = STDOUT;
+	command->output.fd = -1;
 	command->output.value = NULL;
 	return (command);
 }

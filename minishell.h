@@ -14,9 +14,9 @@
 # define MINISHELL_H
 
 # include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include <string.h>
-
 # include "commands.h"
 # include "parsing.h"
 # include "redirections_utils.h"

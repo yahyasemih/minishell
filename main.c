@@ -52,7 +52,6 @@ t_command	*get_commands(const char *line)
 		free_tokens(tokens);
 		return (NULL);
 	}
-	print_tokens(tokens);
 	commands = NULL;
 	process_tokens(tokens, &commands);
 	free_tokens(tokens);
@@ -69,7 +68,8 @@ int	main(void)
 		line = readline("$ ");
 		if (line == NULL)
 			break ;
-		add_history(line);
+		if (*line)
+			add_history(line);
 		commands = get_commands(line);
 		print_commands(commands);
 		free_commands(commands);

@@ -14,10 +14,14 @@
 
 static void	handle_input_redirections(t_command *command, t_token *token)
 {
-	if (command->input.fd < 0)
+	if ((command->input.fd < 0 && command->input.value != NULL)
+		|| (command->output.fd < 0 && command->output.value != NULL))
 		return ;
-	free(command->input.value);
-	close(command->input.fd);
+	if (command->input.value != NULL)
+	{
+		free(command->input.value);
+		close(command->input.fd);
+	}
 	if (token->type == HEREDOC)
 	{
 		command->input.type = IO_HEREDOC;
@@ -35,10 +39,14 @@ static void	handle_input_redirections(t_command *command, t_token *token)
 
 static void	handle_output_redirections(t_command *command, t_token *token)
 {
-	if (command->output.fd < 0)
+	if ((command->input.fd < 0 && command->input.value != NULL)
+		|| (command->output.fd < 0 && command->output.value != NULL))
 		return ;
-	free(command->output.value);
-	close(command->output.fd);
+	if (command->output.value != NULL)
+	{
+		free(command->output.value);
+		close(command->output.fd);
+	}
 	if (token->type == OUTPUT_REDIRECTION)
 	{
 		command->output.type = OUT_REDIRECTION;
@@ -51,7 +59,7 @@ static void	handle_output_redirections(t_command *command, t_token *token)
 		command->output.type = OUT_APPEND;
 		command->output.value = strdup(token->next->value);
 		command->output.fd = open(
-				command->input.value, O_CREAT | O_WRONLY | O_APPEND, 0644);
+				command->output.value, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}
 	if (command->output.fd < 0)
 		printf("minishell: %s: %s\n", command->output.value, strerror(errno));

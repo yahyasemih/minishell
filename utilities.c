@@ -48,7 +48,9 @@ void	print_commands(t_command *commands)
 
 	while (commands)
 	{
-		printf("cmd '%s' nb args '%zu'\n", commands->cmd, commands->nb_args);
+		printf("cmd '%s', input : '%s', output : '%s',  args(%zu) : ",
+			commands->cmd, commands->input.value, commands->output.value,
+			commands->nb_args);
 		i = 0;
 		if (commands->args)
 		{
@@ -58,8 +60,9 @@ void	print_commands(t_command *commands)
 				printf("'%s', ", commands->args[i]);
 				i++;
 			}
-			printf("NULL]\n");
+			printf("NULL]");
 		}
+		printf("\n");
 		commands = commands->next;
 	}
 }
