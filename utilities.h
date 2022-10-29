@@ -13,13 +13,14 @@
 #ifndef UTILITIES_H
 # define UTILITIES_H
 
-# include "commands.h"
-# include "tokens.h"
 # include <stdio.h>
 # include <stdlib.h>
 
-char	*str_join(char *s1, char *s2);
-char	*replace_variables(char *str);
+# include "commands.h"
+# include "string_utils.h"
+# include "tokens.h"
+
+char	*pid_to_str(pid_t pid);
 void	print_tokens(t_token *tokens);
 void	print_commands(t_command *commands);
 int		is_redirection(t_token *token);

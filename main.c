@@ -12,34 +12,6 @@
 
 #include "minishell.h"
 
-void	handle_redirections(t_command *command, t_token *token)
-{
-	if (token->type == HEREDOC || token->type == INPUT_REDIRECTION)
-		free(command->input.value);
-	else if (token->type == OUTPUT_REDIRECTION || token->type == OUTPUT_APPEND)
-		free(command->output.value);
-	if (token->type == HEREDOC)
-	{
-		command->input.type = IO_HEREDOC;
-		command->input.value = strdup(token->next->value);
-	}
-	else if (token->type == INPUT_REDIRECTION)
-	{
-		command->input.type = IN_REDIRECTION;
-		command->input.value = strdup(token->next->value);
-	}
-	else if (token->type == OUTPUT_REDIRECTION)
-	{
-		command->output.type = OUT_REDIRECTION;
-		command->output.value = strdup(token->next->value);
-	}
-	else if (token->type == OUTPUT_APPEND)
-	{
-		command->output.type = OUT_APPEND;
-		command->output.value = strdup(token->next->value);
-	}
-}
-
 void	process_tokens(t_token *token, t_command **commands)
 {
 	t_command	*command;

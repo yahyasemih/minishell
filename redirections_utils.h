@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   redirections_utils.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef REDIRECTIONS_UTILS_H
+# define REDIRECTIONS_UTILS_H
 
-# include <readline/readline.h>
-# include <stdlib.h>
-# include <string.h>
+# include <errno.h>
+# include <sys/fcntl.h>
+# include <stdio.h>
+# include <unistd.h>
 
-# include "commands.h"
-# include "parsing.h"
-# include "redirections_utils.h"
 # include "tokens.h"
-# include "utilities.h"
+# include "commands.h"
 
-#endif //MINISHELL_H
+void	handle_redirections(t_command *command, t_token *token);
+
+#endif //REDIRECTIONS_UTILS_H

@@ -33,7 +33,7 @@ char	*get_var_name(char *str)
 {
 	int	i;
 
-	if (isdigit(str[0]) || str[0] == '$')
+	if (isdigit(str[0]) || str[0] == '$' || str[0] == '?')
 		return (strndup(str, 1));
 	if (str[0] != '_' && !isalpha(str[0]))
 		return (NULL);
@@ -48,9 +48,11 @@ char	*get_value(char *key)
 	if (key == NULL || *key == '\0')
 		return (strdup("$"));
 	else if (*key == '0')
+		return (strdup("minishell"));
+	else if (*key == '?')
 		return (strdup("TODO: last exit status"));
 	else if (*key == '$')
-		return (strdup("TODO: pid"));
+		return (pid_to_str(getpid()));
 	else if (getenv(key) != NULL)
 		return (strdup(getenv(key)));
 	else

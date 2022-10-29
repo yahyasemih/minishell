@@ -16,7 +16,11 @@
 # include <ctype.h>
 # include <stdlib.h>
 # include <string.h>
+# include <unistd.h>
+
+# include "parsing_utils.h"
 
 char	*str_join(char *s1, char *s2);
+char	*replace_variables(char *str);
 
 #endif //STRING_UTILS_H

@@ -12,6 +12,27 @@
 
 #include "utilities.h"
 
+char	*pid_to_str(pid_t pid)
+{
+	char	buff[12];
+	int		i;
+	int		p;
+
+	i = 0;
+	if (pid < 0)
+		buff[i++] = '-';
+	p = 1;
+	while (pid / (p * 10) != 0 && p * 10 > p)
+		p *= 10;
+	while (p != 0 && i < 11)
+	{
+		buff[i++] = (((pid / p) + 10) % 10) + '0';
+		p /= 10;
+	}
+	buff[i] = '\0';
+	return (strdup(buff));
+}
+
 void	print_tokens(t_token *tokens)
 {
 	while (tokens)
