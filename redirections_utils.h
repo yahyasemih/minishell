@@ -14,12 +14,14 @@
 # define REDIRECTIONS_UTILS_H
 
 # include <errno.h>
+# include <readline/readline.h>
 # include <sys/fcntl.h>
 # include <stdio.h>
 # include <unistd.h>
 
 # include "tokens.h"
 # include "commands.h"
+# include "string_utils.h"
 
 void	handle_redirections(t_command *command, t_token *token);
 

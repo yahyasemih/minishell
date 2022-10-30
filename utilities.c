@@ -37,7 +37,8 @@ void	print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
-		printf("type %d value '%s'\n", tokens->type, tokens->value);
+		printf("type %d value '%s' quoted %d\n", tokens->type, tokens->value,
+			tokens->quoted);
 		tokens = tokens->next;
 	}
 }

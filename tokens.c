@@ -48,6 +48,7 @@ void	add_token(t_token **tokens, char *value)
 	token->next = NULL;
 	token->type = get_token_type(value);
 	token->value = value;
+	token->quoted = 0;
 	if (*tokens == NULL)
 		*tokens = token;
 	else
