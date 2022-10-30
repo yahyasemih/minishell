@@ -41,10 +41,10 @@ t_command	*new_command(void)
 	command->cmd = NULL;
 	command->nb_args = 0;
 	command->input.type = STDIN;
-	command->input.fd = -1;
+	command->input.fd = 0;
 	command->input.value = NULL;
 	command->output.type = STDOUT;
-	command->output.fd = -1;
+	command->output.fd = 1;
 	command->output.value = NULL;
 	return (command);
 }
@@ -71,8 +71,16 @@ void	free_commands(t_command *commands)
 	while (commands)
 	{
 		it = commands->next;
-		free(commands->input.value);
-		free(commands->output.value);
+		if (commands->input.value != NULL)
+		{
+			free(commands->input.value);
+			close(commands->input.fd);
+		}
+		if (commands->output.value != NULL)
+		{
+			free(commands->output.value);
+			close(commands->output.fd);
+		}
 		i = 0;
 		while (i < commands->nb_args)
 			free(commands->args[i++]);

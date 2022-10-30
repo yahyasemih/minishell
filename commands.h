@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include <string.h>
+# include <unistd.h>
 
 typedef enum io_source_type {
 	IO_PIPE,

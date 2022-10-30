@@ -26,7 +26,7 @@ char	*pid_to_str(pid_t pid)
 		p *= 10;
 	while (p != 0 && i < 11)
 	{
-		buff[i++] = (((pid / p) + 10) % 10) + '0';
+		buff[i++] = (char)((((pid / p) + 10) % 10) + '0');
 		p /= 10;
 	}
 	buff[i] = '\0';
@@ -49,9 +49,9 @@ void	print_commands(t_command *commands)
 
 	while (commands)
 	{
-		printf("cmd '%s', input : '%s', output : '%s',  args(%zu) : ",
-			commands->cmd, commands->input.value, commands->output.value,
-			commands->nb_args);
+		printf("cmd '%s', input : '%s' (%d), output : '%s' (%d),  args(%zu) : ",
+			commands->cmd, commands->input.value, commands->input.fd,
+			commands->output.value, commands->output.fd, commands->nb_args);
 		i = 0;
 		if (commands->args)
 		{
