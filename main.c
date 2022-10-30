@@ -12,6 +12,35 @@
 
 #include "minishell.h"
 
+void	handle_pipe(t_command **commands, t_command **command)
+{
+	t_command	*previous;
+	int			pipe_fd[2];
+
+	previous = *command;
+	if (previous->output.type == STDOUT)
+	{
+		previous->output.value = strdup("pipe");
+		previous->output.type = IO_PIPE;
+	}
+	add_command(commands, previous);
+	*command = new_command();
+	(*command)->input.type = IO_PIPE;
+	if (pipe(pipe_fd) < 0)
+	{
+		previous->output.fd = -1;
+		(*command)->input.fd = -1;
+		printf("minishell: pipe: %s\n", strerror(errno));
+		return ;
+	}
+	if (previous->output.type == IO_PIPE)
+		previous->output.fd = pipe_fd[1];
+	else
+		close(pipe_fd[1]);
+	(*command)->input.fd = pipe_fd[0];
+	(*command)->input.value = strdup("pipe");
+}
+
 void	process_tokens(t_token *token, t_command **commands)
 {
 	t_command	*command;
@@ -20,13 +49,7 @@ void	process_tokens(t_token *token, t_command **commands)
 	while (token && token->type != NEW_LINE)
 	{
 		if (token->type == PIPE)
-		{
-			if (command->output.type == STDOUT)
-				command->output.type = IO_PIPE;
-			add_command(commands, command);
-			command = new_command();
-			command->input.type = IO_PIPE;
-		}
+			handle_pipe(commands, &command);
 		else if (is_redirection(token))
 		{
 			handle_redirections(command, token);
