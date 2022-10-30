@@ -21,12 +21,11 @@ void	process_tokens(t_token *token, t_command **commands)
 	{
 		if (token->type == PIPE)
 		{
-			command->output.type = IO_PIPE;
-			command->output.value = NULL;
+			if (command->output.type == STDOUT)
+				command->output.type = IO_PIPE;
 			add_command(commands, command);
 			command = new_command();
 			command->input.type = IO_PIPE;
-			command->input.value = NULL;
 		}
 		else if (is_redirection(token))
 		{
