@@ -56,8 +56,13 @@ int	check_syntax(t_token *tokens)
 			return (printf("minishell: syntax error: unexpected end of file\n"));
 		if (token->type != STRING && token->type != PIPE
 			&& (token->next == NULL || token->next->type != STRING))
+		{
+			if (token->next == NULL)
+				return (printf(
+						"minishell: syntax error: unexpected end of file"));
 			return (printf("minishell: syntax error near unexpected token `%s'"
 					"\n", token->next->value));
+		}
 		token = token->next;
 	}
 	return (0);
