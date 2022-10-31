@@ -80,11 +80,24 @@ t_command	*get_commands(const char *line)
 	return (commands);
 }
 
+void	cmd_signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
 int	main(void)
 {
 	char		*line;
 	t_command	*commands;
 
+	rl_catch_signals = 0;
+	signal(SIGINT, cmd_signal_handler);
 	while (1)
 	{
 		line = readline("$ ");
