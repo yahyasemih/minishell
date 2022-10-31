@@ -41,6 +41,19 @@ t_token	*parse_command(const char *str)
 	return (tokens);
 }
 
+static int	check_pipe(t_token *token, t_token *next)
+{
+	if (token != NULL && token->type == PIPE)
+	{
+		if (next == NULL || next->type == NEW_LINE)
+			return (printf("minishell: syntax error: unexpected end of file\n"));
+		if (next->type == PIPE)
+			return (printf(
+					"minishell: syntax error near unexpected token `|'\n"));
+	}
+	return (0);
+}
+
 int	check_syntax(t_token *tokens)
 {
 	t_token	*token;
@@ -63,6 +76,8 @@ int	check_syntax(t_token *tokens)
 			return (printf("minishell: syntax error near unexpected token `%s'"
 					"\n", token->next->value));
 		}
+		if (check_pipe(token, token->next))
+			return (1);
 		token = token->next;
 	}
 	return (0);
