@@ -87,7 +87,8 @@ void	execute_commands(t_command *commands)
 	status = 0;
 	while (commands != NULL)
 	{
-		if (commands->cmd != NULL)
+		if (commands->cmd != NULL && commands->input.fd != -1
+			&& commands->output.fd != -1)
 		{
 			if (fork() == 0)
 			{
