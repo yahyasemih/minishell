@@ -64,10 +64,10 @@ int	handle_quoted_string(t_token **tokens, const char *str, size_t index,
 		last->quoted |= 1;
 		if (last->quoted)
 			last->type = STRING;
+		return (i + 1);
 	}
-	else
-		add_token(tokens, NULL);
-	return (i + 1);
+	add_token(tokens, NULL);
+	return (i);
 }
 
 int	handle_simple_string(t_token **tokens, const char *str, size_t index)
