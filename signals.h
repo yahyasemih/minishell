@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   signals.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,18 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef SIGNALS_H
+# define SIGNALS_H
 
 # include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include <string.h>
-# include "commands.h"
-# include "parsing.h"
-# include "redirections_utils.h"
-# include "signals.h"
-# include "tokens.h"
-# include "utilities.h"
+# include <signal.h>
 
-#endif //MINISHELL_H
+void	cmd_signal_handler(int sig);
+void	install_signal_handlers(void);
+
+#endif //SIGNALS_H

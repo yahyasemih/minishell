@@ -96,8 +96,7 @@ int	main(void)
 	char		*line;
 	t_command	*commands;
 
-	rl_catch_signals = 0;
-	signal(SIGINT, cmd_signal_handler);
+	install_signal_handlers();
 	while (1)
 	{
 		line = readline("$ ");
