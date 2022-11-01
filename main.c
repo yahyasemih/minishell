@@ -80,35 +80,6 @@ t_command	*get_commands(const char *line)
 	return (commands);
 }
 
-void	execute_commands(t_command *commands)
-{
-	int			status;
-
-	status = 0;
-	while (commands != NULL)
-	{
-		if (commands->cmd != NULL && commands->input.fd != -1
-			&& commands->output.fd != -1)
-		{
-			if (fork() == 0)
-			{
-				dup2(commands->input.fd, 0);
-				dup2(commands->output.fd, 1);
-				execve(commands->cmd, commands->args, NULL);
-				perror("execve failed");
-				exit(1);
-			}
-		}
-		if (commands->input.fd != 0)
-			close(commands->input.fd);
-		if (commands->output.fd != 1)
-			close(commands->output.fd);
-		commands = commands->next;
-	}
-	while (wait(&status) > 0)
-		;
-}
-
 int	main(void)
 {
 	char		*line;
@@ -127,6 +98,5 @@ int	main(void)
 		free_commands(commands);
 		free(line);
 	}
-	system("leaks minishell");
 	return (0);
 }
