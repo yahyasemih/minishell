@@ -80,7 +80,8 @@ int	handle_simple_string(t_token **tokens, const char *str, size_t index)
 	while (str[index + i] != '\0' && strchr(" \"'<>|", str[index + i]) == NULL)
 		++i;
 	val = strndup(str + index, i);
-	if (strchr(val, '$') != NULL)
+	if (strchr(val, '$') != NULL
+		&& get_last_non_separator_type(*tokens) != HEREDOC)
 		val = replace_variables(val);
 	last = last_token(*tokens);
 	if (last != NULL && last->type == STRING)

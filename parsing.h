@@ -17,8 +17,9 @@
 # include "parsing_utils.h"
 # include <stdio.h>
 
-t_token	*parse_command(const char *str);
-int		check_syntax(t_token *tokens);
-void	remove_separator(t_token **tokens);
+t_token			*parse_command(const char *str);
+int				check_syntax(t_token *tokens);
+void			remove_separator(t_token **tokens);
+t_token_type	get_last_non_separator_type(t_token *tokens);
 
 #endif //PARSING_H

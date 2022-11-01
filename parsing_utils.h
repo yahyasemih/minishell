@@ -13,6 +13,7 @@
 #ifndef PARSING_UTILS_H
 # define PARSING_UTILS_H
 
+# include "parsing.h"
 # include "tokens.h"
 # include "utilities.h"
 

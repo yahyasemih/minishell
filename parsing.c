@@ -83,6 +83,20 @@ int	check_syntax(t_token *tokens)
 	return (0);
 }
 
+t_token_type	get_last_non_separator_type(t_token *tokens)
+{
+	t_token_type	type;
+
+	type = INVALID;
+	while (tokens != NULL)
+	{
+		if (tokens->type != SEPARATOR)
+			type = tokens->type;
+		tokens = tokens->next;
+	}
+	return (type);
+}
+
 void	remove_separator(t_token **tokens)
 {
 	t_token	*token;
