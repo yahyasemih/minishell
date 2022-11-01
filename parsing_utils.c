@@ -75,7 +75,7 @@ int	handle_simple_string(t_token **tokens, const char *str, size_t index)
 	t_token	*last;
 
 	i = 0;
-	while (str[index + i] != '\0' && strchr(" \"'", str[index + i]) == NULL)
+	while (str[index + i] != '\0' && strchr(" \"'<>|", str[index + i]) == NULL)
 		++i;
 	val = strndup(str + index, i);
 	if (strchr(val, '$') != NULL)
