@@ -80,15 +80,32 @@ t_command	*get_commands(const char *line)
 	return (commands);
 }
 
-void	cmd_signal_handler(int sig)
+void	execute_commands(t_command *commands)
 {
-	if (sig == SIGINT)
+	int			status;
+
+	status = 0;
+	while (commands != NULL)
 	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
+		if (commands->cmd != NULL)
+		{
+			if (fork() == 0)
+			{
+				dup2(commands->input.fd, 0);
+				dup2(commands->output.fd, 1);
+				execve(commands->cmd, commands->args, NULL);
+				perror("execve failed");
+				exit(1);
+			}
+		}
+		if (commands->input.fd != 0)
+			close(commands->input.fd);
+		if (commands->output.fd != 1)
+			close(commands->output.fd);
+		commands = commands->next;
 	}
+	while (wait(&status) > 0)
+		;
 }
 
 int	main(void)
@@ -105,7 +122,7 @@ int	main(void)
 		if (*line)
 			add_history(line);
 		commands = get_commands(line);
-		print_commands(commands);
+		execute_commands(commands);
 		free_commands(commands);
 		free(line);
 	}
