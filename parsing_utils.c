@@ -62,6 +62,8 @@ int	handle_quoted_string(t_token **tokens, const char *str, size_t index,
 			add_token(tokens, val);
 		last = last_token(*tokens);
 		last->quoted |= 1;
+		if (last->quoted)
+			last->type = STRING;
 	}
 	else
 		add_token(tokens, NULL);
