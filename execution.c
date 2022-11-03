@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "execution.h"
+#include "builtins.h"
 
-static void	close_pipes(t_command *commands)
+static void	close_fds(t_command *commands)
 {
 	while (commands != NULL)
 	{
@@ -21,6 +22,37 @@ static void	close_pipes(t_command *commands)
 		if (commands->output.fd != 1)
 			close(commands->output.fd);
 		commands = commands->next;
+	}
+}
+
+// TODO: find command in PATH or return NULL
+// TODO: remove `str_join(strdup("/bin/"), strdup(command->cmd))`
+static char	*find_command_ful_path(t_command *command)
+{
+	return (str_join(strdup("/bin/"), strdup(command->cmd)));
+	return (command->cmd);
+}
+
+static void	execute_command(t_command *command, t_command *commands)
+{
+	char	*path;
+
+	if (fork() == 0)
+	{
+		dup2(command->input.fd, 0);
+		dup2(command->output.fd, 1);
+		close_fds(commands);
+		if (is_builtin(command))
+			exit(execute_builtin(command));
+		path = find_command_ful_path(command);
+		if (path == NULL)
+		{
+			printf("minishell: %s: %s\n", command->cmd, strerror(errno));
+			exit(127);
+		}
+		execve(path, command->args, NULL);
+		perror("execve failed");
+		exit(1);
 	}
 }
 
@@ -36,19 +68,11 @@ void	execute_commands(t_command *commands)
 		if (command->cmd != NULL && command->input.fd != -1
 			&& command->output.fd != -1)
 		{
-			if (fork() == 0)
-			{
-				dup2(command->input.fd, 0);
-				dup2(command->output.fd, 1);
-				close_pipes(commands);
-				execve(command->cmd, command->args, NULL);
-				perror("execve failed");
-				exit(1);
-			}
+			execute_command(command, commands);
 		}
 		command = command->next;
 	}
-	close_pipes(commands);
+	close_fds(commands);
 	while (wait(&status) > 0)
 		;
 }
