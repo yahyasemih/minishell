@@ -16,7 +16,6 @@
 # include <stdlib.h>
 # include <string.h>
 
-// TODO: add more types
 typedef enum token_type {
 	STRING,
 	INPUT_REDIRECTION,

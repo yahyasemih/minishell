@@ -70,7 +70,7 @@ int	check_syntax(t_token *tokens)
 		if (token->type != STRING && token->type != PIPE
 			&& (token->next == NULL || token->next->type != STRING))
 		{
-			if (token->next == NULL)
+			if (token->next == NULL || token->next->value == NULL)
 				return (printf(
 						"minishell: syntax error: unexpected end of file"));
 			return (printf("minishell: syntax error near unexpected token `%s'"
