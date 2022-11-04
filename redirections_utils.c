@@ -103,6 +103,8 @@ static void	handle_output_redirections(t_command *command, t_token *token)
 
 void	handle_redirections(t_command *command, t_token *token)
 {
+	if (token->next != NULL && token->next->type != STRING)
+		return ;
 	if (token->type == HEREDOC)
 		handle_heredoc(command, token);
 	else if (token->type == INPUT_REDIRECTION)

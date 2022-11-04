@@ -29,6 +29,7 @@ typedef struct minishell_context_s
 {
 	int		exit_status;
 	int		is_executing;
+	int		should_execute;
 	char	**env;
 }	t_minishell_context;
 

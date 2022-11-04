@@ -70,10 +70,7 @@ static t_command	*get_commands(const char *line)
 	tokens = parse_command(line);
 	remove_separator(&tokens);
 	if (check_syntax(tokens))
-	{
-		free_tokens(tokens);
-		return (NULL);
-	}
+		g_minishell_ctx.should_execute = 0;
 	commands = NULL;
 	process_tokens(tokens, &commands);
 	free_tokens(tokens);
@@ -85,6 +82,7 @@ static void	init_minishell_context(char **env)
 	g_minishell_ctx.env = env;
 	g_minishell_ctx.exit_status = 0;
 	g_minishell_ctx.is_executing = 0;
+	g_minishell_ctx.should_execute = 1;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -93,10 +91,7 @@ int	main(int argc, char **argv, char **env)
 	t_command	*commands;
 
 	if (argc != 1)
-	{
-		printf("Usage: %s with no argument\n", argv[0]);
-		exit(1);
-	}
+		exit(printf("Usage: %s with no argument\n", argv[0]));
 	init_minishell_context(env);
 	install_signal_handlers();
 	while (1)
@@ -107,9 +102,13 @@ int	main(int argc, char **argv, char **env)
 		if (*line)
 			add_history(line);
 		commands = get_commands(line);
-		execute_commands(commands);
+		if (g_minishell_ctx.should_execute)
+			execute_commands(commands);
+		else
+			g_minishell_ctx.exit_status = 258;
 		free_commands(commands);
 		free(line);
+		g_minishell_ctx.should_execute = 1;
 	}
 	return (0);
 }
