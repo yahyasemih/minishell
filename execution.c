@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
 #include "builtins_utils.h"
+#include "execution_utils.h"
+#include "execution.h"
 
 static void	close_fds(t_command *commands)
 {
@@ -76,12 +77,7 @@ static void	execute_command(t_command *command, t_command *commands)
 		if (is_builtin(command))
 			exit(execute_builtin(command));
 		path = find_command_ful_path(command);
-		if (path == NULL)
-		{
-			dup2(2, 1);
-			printf("minishell: %s: command not found\n", command->cmd);
-			exit(127);
-		}
+		check_path(path, command->cmd);
 		execve(path, command->args, NULL);
 		free(path);
 		dup2(2, 1);
