@@ -33,7 +33,7 @@ static char	*get_cmd_from_path(t_command *command)
 
 	path = getenv("PATH");
 	if (path == NULL)
-		return (command->cmd);
+		return (strdup(command->cmd));
 	p = strchr(path, ':');
 	while (p != NULL)
 	{
@@ -43,10 +43,12 @@ static char	*get_cmd_from_path(t_command *command)
 			return (curr);
 		path = p + 1;
 		p = strchr(path, ':');
+		free(curr);
 	}
 	curr = str_join(strdup(path), strdup(command->cmd));
 	if (!access(curr, F_OK))
 		return (curr);
+	free(curr);
 	return (NULL);
 }
 
@@ -78,6 +80,7 @@ static void	execute_command(t_command *command, t_command *commands)
 			exit(127);
 		}
 		execve(path, command->args, NULL);
+		free(path);
 		printf("minishell: %s: %s\n", command->cmd, strerror(errno));
 		exit(1);
 	}
