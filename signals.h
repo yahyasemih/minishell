@@ -15,8 +15,10 @@
 
 # include <readline/readline.h>
 # include <signal.h>
+# include "minishell.h"
 
-void	cmd_signal_handler(int sig);
-void	install_signal_handlers(void);
+void		cmd_signal_handler(int sig);
+void		install_signal_handlers(void);
+const char	*signal_name(int sig);
 
 #endif //SIGNALS_H

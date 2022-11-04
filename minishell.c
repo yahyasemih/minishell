@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	handle_pipe(t_command **commands, t_command **command)
+static void	handle_pipe(t_command **commands, t_command **command)
 {
 	t_command	*previous;
 	int			pipe_fd[2];
@@ -41,7 +41,7 @@ void	handle_pipe(t_command **commands, t_command **command)
 	(*command)->input.value = strdup("pipe");
 }
 
-void	process_tokens(t_token *token, t_command **commands)
+static void	process_tokens(t_token *token, t_command **commands)
 {
 	t_command	*command;
 
@@ -62,7 +62,7 @@ void	process_tokens(t_token *token, t_command **commands)
 	add_command(commands, command);
 }
 
-t_command	*get_commands(const char *line)
+static t_command	*get_commands(const char *line)
 {
 	t_token		*tokens;
 	t_command	*commands;
@@ -80,15 +80,28 @@ t_command	*get_commands(const char *line)
 	return (commands);
 }
 
-int	main(void)
+static void	init_minishell_context(char **env)
+{
+	g_minishell_ctx.env = env;
+	g_minishell_ctx.exit_status = 0;
+	g_minishell_ctx.is_executing = 0;
+}
+
+int	main(int argc, char **argv, char **env)
 {
 	char		*line;
 	t_command	*commands;
 
+	if (argc != 1)
+	{
+		printf("Usage: %s with no argument\n", argv[0]);
+		exit(1);
+	}
+	init_minishell_context(env);
 	install_signal_handlers();
 	while (1)
 	{
-		line = readline("$ ");
+		line = readline("minish-1.0$ ");
 		if (line == NULL)
 			break ;
 		if (*line)

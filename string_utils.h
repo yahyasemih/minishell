@@ -18,6 +18,7 @@
 # include <string.h>
 # include <unistd.h>
 
+# include "minishell.h"
 # include "parsing_utils.h"
 
 char	*str_join(char *s1, char *s2);

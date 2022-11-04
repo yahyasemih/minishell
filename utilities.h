@@ -20,7 +20,7 @@
 # include "string_utils.h"
 # include "tokens.h"
 
-char	*pid_to_str(pid_t pid);
+char	*int_to_str(pid_t pid);
 void	print_tokens(t_token *tokens);
 void	print_commands(t_command *commands);
 int		is_redirection(t_token *token);

@@ -12,7 +12,7 @@
 
 #include "utilities.h"
 
-char	*pid_to_str(pid_t pid)
+char	*int_to_str(int pid)
 {
 	char	buff[12];
 	int		i;

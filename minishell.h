@@ -25,4 +25,13 @@
 # include "tokens.h"
 # include "utilities.h"
 
+typedef struct minishell_context_s
+{
+	int		exit_status;
+	int		is_executing;
+	char	**env;
+}	t_minishell_context;
+
+t_minishell_context	g_minishell_ctx;
+
 #endif //MINISHELL_H

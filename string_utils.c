@@ -48,11 +48,11 @@ char	*get_value(char *key)
 	if (key == NULL || *key == '\0')
 		return (strdup("$"));
 	else if (*key == '0')
-		return (strdup("minishell"));
+		return (strdup("minish"));
 	else if (*key == '?')
-		return (strdup("TODO: last exit status"));
+		return (int_to_str(g_minishell_ctx.exit_status));
 	else if (*key == '$')
-		return (pid_to_str(getpid()));
+		return (int_to_str(getpid()));
 	else if (getenv(key) != NULL)
 		return (strdup(getenv(key)));
 	else
