@@ -25,12 +25,39 @@ static void	close_fds(t_command *commands)
 	}
 }
 
-// TODO: find command in PATH or return NULL
-// TODO: remove `str_join(strdup("/bin/"), strdup(command->cmd))`
+static char	*get_cmd_from_path(t_command *command)
+{
+	char	*p;
+	char	*path;
+	char	*curr;
+
+	path = getenv("PATH");
+	if (path == NULL)
+		return (command->cmd);
+	p = strchr(path, ':');
+	while (p != NULL)
+	{
+		curr = str_join(str_join(strndup(path, p - path), strdup("/")),
+				strdup(command->cmd));
+		if (!access(curr, F_OK))
+			return (curr);
+		path = p + 1;
+		p = strchr(path, ':');
+	}
+	curr = str_join(strdup(path), strdup(command->cmd));
+	if (!access(curr, F_OK))
+		return (curr);
+	return (NULL);
+}
+
 static char	*find_command_ful_path(t_command *command)
 {
-	return (command->cmd);
-	return (str_join(strdup("/bin/"), strdup(command->cmd)));
+	if (command->cmd == NULL || command->cmd[0] == '/')
+		return (command->cmd);
+	if (strchr(command->cmd, '/') != NULL)
+		return (str_join(str_join(getcwd(NULL, 0), strdup("/")),
+				strdup(command->cmd)));
+	return (get_cmd_from_path(command));
 }
 
 static void	execute_command(t_command *command, t_command *commands)
@@ -51,7 +78,7 @@ static void	execute_command(t_command *command, t_command *commands)
 			exit(127);
 		}
 		execve(path, command->args, NULL);
-		perror("execve failed");
+		printf("minishell: %s: %s\n", command->cmd, strerror(errno));
 		exit(1);
 	}
 }
