@@ -51,14 +51,22 @@ t_command	*new_command(void)
 
 void	append_arg(t_command *command, char *arg)
 {
+	char	**args;
+
 	if (command->nb_args == 0)
 		command->cmd = strdup(arg);
 	command->nb_args++;
+	args = malloc(sizeof(char *) * (command->nb_args + 1));
+	if (args == NULL)
+		return ;
 	if (command->args == NULL)
-		command->args = malloc(sizeof(char *) * (command->nb_args + 1));
+		command->args = args;
 	else
-		command->args = realloc(command->args,
-				(command->nb_args + 1) * sizeof(char *));
+	{
+		memcpy(args, command->args, sizeof(char *) * command->nb_args);
+		free(command->args);
+		command->args = args;
+	}
 	command->args[command->nb_args - 1] = strdup(arg);
 	command->args[command->nb_args] = NULL;
 }

@@ -25,13 +25,13 @@ static void	handle_pipe(t_command **commands, t_command **command)
 	}
 	add_command(commands, previous);
 	*command = new_command();
+	if (*command == NULL)
+		return ;
 	(*command)->input.type = IO_PIPE;
 	if (pipe(pipe_fd) < 0)
 	{
-		previous->output.fd = -1;
-		(*command)->input.fd = -1;
+		memset(pipe_fd, -1, 2);
 		printf("minishell: pipe error: %s\n", strerror(errno));
-		return ;
 	}
 	if (previous->output.type == IO_PIPE)
 		previous->output.fd = pipe_fd[1];
@@ -46,6 +46,8 @@ static void	process_tokens(t_token *token, t_command **commands)
 	t_command	*command;
 
 	command = new_command();
+	if (command == NULL)
+		return ;
 	while (token && token->type != NEW_LINE && token->type != INVALID)
 	{
 		if (token->type == PIPE)
