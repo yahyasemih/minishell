@@ -54,8 +54,10 @@ static char	*get_cmd_from_path(t_command *command)
 
 static char	*find_command_ful_path(t_command *command)
 {
-	if (command->cmd == NULL || command->cmd[0] == '/')
-		return (command->cmd);
+	if (command->cmd == NULL)
+		return (NULL);
+	if (command->cmd[0] == '/')
+		return (strdup(command->cmd));
 	if (strchr(command->cmd, '/') != NULL)
 		return (str_join(str_join(getcwd(NULL, 0), strdup("/")),
 				strdup(command->cmd)));
