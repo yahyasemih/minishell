@@ -30,7 +30,7 @@ static void	handle_pipe(t_command **commands, t_command **command)
 	{
 		previous->output.fd = -1;
 		(*command)->input.fd = -1;
-		printf("minishell: pipe: %s\n", strerror(errno));
+		printf("minishell: pipe error: %s\n", strerror(errno));
 		return ;
 	}
 	if (previous->output.type == IO_PIPE)
