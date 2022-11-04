@@ -46,7 +46,7 @@ static void	process_tokens(t_token *token, t_command **commands)
 	t_command	*command;
 
 	command = new_command();
-	while (token && token->type != NEW_LINE)
+	while (token && token->type != NEW_LINE && token->type != INVALID)
 	{
 		if (token->type == PIPE)
 			handle_pipe(commands, &command);
@@ -110,5 +110,6 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 		g_minishell_ctx.should_execute = 1;
 	}
+	system("leaks minishell");
 	return (0);
 }
