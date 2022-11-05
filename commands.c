@@ -33,7 +33,7 @@ t_command	*new_command(void)
 {
 	t_command	*command;
 
-	command = malloc(sizeof(t_command));
+	command = (t_command *)malloc(sizeof(t_command));
 	if (command == NULL)
 		return (NULL);
 	command->next = NULL;
@@ -56,7 +56,7 @@ void	append_arg(t_command *command, char *arg)
 	if (command->nb_args == 0)
 		command->cmd = strdup(arg);
 	command->nb_args++;
-	args = malloc(sizeof(char *) * (command->nb_args + 1));
+	args = (char **)malloc(sizeof(char *) * (command->nb_args + 1));
 	if (args == NULL)
 		return ;
 	if (command->args == NULL)

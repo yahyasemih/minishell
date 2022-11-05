@@ -55,7 +55,7 @@ static char	*get_cmd_from_path(t_command *command)
 
 static char	*find_command_ful_path(t_command *command)
 {
-	if (command->cmd == NULL)
+	if (command->cmd == NULL || *(command->cmd) == '\0')
 		return (NULL);
 	if (command->cmd[0] == '/')
 		return (strdup(command->cmd));
@@ -78,11 +78,11 @@ static void	execute_command(t_command *command, t_command *commands)
 			exit(execute_builtin(command));
 		path = find_command_ful_path(command);
 		check_path(path, command->cmd);
-		execve(path, command->args, NULL);
+		execve(path, command->args, g_minishell_ctx.env);
 		free(path);
 		dup2(2, 1);
 		printf("minishell: %s: %s\n", command->cmd, strerror(errno));
-		exit(1);
+		exit(126);
 	}
 }
 

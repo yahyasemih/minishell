@@ -72,7 +72,7 @@ int	check_syntax(t_token *tokens)
 		{
 			if (token->next == NULL || token->next->value == NULL)
 				return (printf(
-						"minishell: syntax error: unexpected end of file"));
+						"minishell: syntax error: unexpected end of file\n"));
 			return (printf("minishell: syntax error near unexpected token `%s'"
 					"\n", token->next->value));
 		}
