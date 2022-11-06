@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yez-zain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 08:07:04 by yez-zain          #+#    #+#             */
 /*   Updated: 2022/10/24 08:07:07 by yez-zain         ###   ########.fr       */

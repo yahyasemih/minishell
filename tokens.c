@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yez-zain <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 08:07:30 by yez-zain          #+#    #+#             */
 /*   Updated: 2022/10/24 08:07:31 by yez-zain         ###   ########.fr       */
