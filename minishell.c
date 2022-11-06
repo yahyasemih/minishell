@@ -18,9 +18,11 @@ static void	handle_pipe(t_command **commands, t_command **command)
 	int			pipe_fd[2];
 
 	previous = *command;
+	pipe_fd[0] = -1;
+	pipe_fd[1] = -1;
 	if (previous->output.type == STDOUT)
 	{
-		previous->output.value = strdup("pipe");
+		previous->output.value = str_dup("pipe");
 		previous->output.type = IO_PIPE;
 	}
 	add_command(commands, previous);
@@ -29,16 +31,13 @@ static void	handle_pipe(t_command **commands, t_command **command)
 		return ;
 	(*command)->input.type = IO_PIPE;
 	if (pipe(pipe_fd) < 0)
-	{
-		memset(pipe_fd, -1, 2 * sizeof(int));
 		printf("minishell: pipe error: %s\n", strerror(errno));
-	}
 	if (previous->output.type == IO_PIPE)
 		previous->output.fd = pipe_fd[1];
 	else
 		close(pipe_fd[1]);
 	(*command)->input.fd = pipe_fd[0];
-	(*command)->input.value = strdup("pipe");
+	(*command)->input.value = str_dup("pipe");
 }
 
 static void	process_tokens(t_token *token, t_command **commands)

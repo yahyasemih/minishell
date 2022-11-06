@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "commands.h"
+#include "string_utils.h"
 
 void	add_command(t_command **commands, t_command *command)
 {
@@ -52,9 +53,10 @@ t_command	*new_command(void)
 void	append_arg(t_command *command, char *arg)
 {
 	char	**args;
+	size_t	i;
 
 	if (command->nb_args == 0)
-		command->cmd = strdup(arg);
+		command->cmd = str_dup(arg);
 	command->nb_args++;
 	args = (char **)malloc(sizeof(char *) * (command->nb_args + 1));
 	if (args == NULL)
@@ -63,11 +65,16 @@ void	append_arg(t_command *command, char *arg)
 		command->args = args;
 	else
 	{
-		memcpy(args, command->args, sizeof(char *) * command->nb_args);
+		i = 0;
+		while (i < command->nb_args)
+		{
+			args[i] = command->args[i];
+			++i;
+		}
 		free(command->args);
 		command->args = args;
 	}
-	command->args[command->nb_args - 1] = strdup(arg);
+	command->args[command->nb_args - 1] = str_dup(arg);
 	command->args[command->nb_args] = NULL;
 }
 

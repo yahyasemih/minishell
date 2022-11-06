@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utils.h                                     :+:      :+:    :+:   */
+/*   "env_variables_utils.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 03:38:20 by yez-zain          #+#    #+#             */
-/*   Updated: 2022/10/24 03:38:24 by yez-zain         ###   ########.fr       */
+/*   Created: 2022/10/24 08:07:13 by yez-zain          #+#    #+#             */
+/*   Updated: 2022/10/24 08:07:15 by yez-zain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef STRING_UTILS_H
-# define STRING_UTILS_H
+#ifndef ENV_VARIABLES_UTILS_H
+# define ENV_VARIABLES_UTILS_H
 
-# include <ctype.h>
-# include <stdlib.h>
-# include <string.h>
-# include <unistd.h>
+# include "string_utils.h"
 
-# include "minishell.h"
-# include "parsing_utils.h"
+char	*replace_variables(char *str);
 
-size_t	str_len(const char *str);
-char	*str_n_dup(const char *str, size_t n);
-char	*str_dup(const char *str);
-char	*str_join(char *s1, char *s2);
-char	*str_chr(const char *str, char c);
-
-#endif //STRING_UTILS_H
+#endif //ENV_VARIABLES_UTILS_H

@@ -12,6 +12,26 @@
 
 #include "utilities.h"
 
+int	str_cmp(const char *s1, const char *s2)
+{
+	size_t			i;
+	unsigned char	*str1;
+	unsigned char	*str2;
+
+	if (s1 == NULL && s2 == NULL)
+		return (0);
+	if (s1 == NULL && s2 != NULL)
+		return (-1);
+	if (s1 != NULL && s2 == NULL)
+		return (1);
+	str1 = (unsigned char *)s1;
+	str2 = (unsigned char *)s2;
+	i = 0;
+	while (str1[i] && str2[i] && str1[i] == str2[i])
+		i++;
+	return (str1[i] - str2[i]);
+}
+
 char	*int_to_str(int pid)
 {
 	char	buff[12];
@@ -30,7 +50,7 @@ char	*int_to_str(int pid)
 		p /= 10;
 	}
 	buff[i] = '\0';
-	return (strdup(buff));
+	return (str_dup(buff));
 }
 
 void	print_tokens(t_token *tokens)

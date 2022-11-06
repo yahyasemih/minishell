@@ -16,12 +16,12 @@ int	handle_input_redirection(t_token **tokens, const char *str, size_t index)
 {
 	if (str[index + 1] != '<')
 	{
-		add_token(tokens, strdup("<"));
+		add_token(tokens, str_dup("<"));
 		return (1);
 	}
 	else
 	{
-		add_token(tokens, strdup("<<"));
+		add_token(tokens, str_dup("<<"));
 		return (2);
 	}
 }
@@ -30,12 +30,12 @@ int	handle_output_redirection(t_token **tokens, const char *str, size_t index)
 {
 	if (str[index + 1] == '>')
 	{
-		add_token(tokens, strdup(">>"));
+		add_token(tokens, str_dup(">>"));
 		return (2);
 	}
 	else
 	{
-		add_token(tokens, strdup(">"));
+		add_token(tokens, str_dup(">"));
 		return (1);
 	}
 }
@@ -52,8 +52,8 @@ int	handle_quoted_string(t_token **tokens, const char *str, size_t index,
 		++i;
 	if (str[index + i] == q)
 	{
-		val = strndup(str + index, i);
-		if (q == '"' && strchr(val, '$') != NULL)
+		val = str_n_dup(str + index, i);
+		if (q == '"' && str_chr(val, '$') != NULL)
 			val = replace_variables(val);
 		last = last_token(*tokens);
 		if (last != NULL && last->type == STRING)
@@ -77,10 +77,10 @@ int	handle_simple_string(t_token **tokens, const char *str, size_t index)
 	t_token	*last;
 
 	i = 0;
-	while (str[index + i] != '\0' && strchr(" \"'<>|", str[index + i]) == NULL)
+	while (str[index + i] != '\0' && str_chr(" \"'<>|", str[index + i]) == NULL)
 		++i;
-	val = strndup(str + index, i);
-	if (strchr(val, '$') != NULL
+	val = str_n_dup(str + index, i);
+	if (str_chr(val, '$') != NULL
 		&& get_last_non_separator_type(*tokens) != HEREDOC)
 		val = replace_variables(val);
 	last = last_token(*tokens);
@@ -99,6 +99,6 @@ int	handle_separator(t_token **tokens, const char *str, size_t index)
 	while (str[index + i] == ' ')
 		++i;
 	if (i > 0)
-		add_token(tokens, strdup(" "));
+		add_token(tokens, str_dup(" "));
 	return (i);
 }

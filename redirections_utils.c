@@ -22,11 +22,11 @@ static void	process_heredoc(char *delimiter, int write_fd, int should_expand)
 	signal(SIGQUIT, heredoc_signal_handler);
 	line = readline("> ");
 	while (!g_minishell_ctx.is_cancelled && line != NULL
-		&& strcmp(line, delimiter) != 0)
+		&& str_cmp(line, delimiter) != 0)
 	{
 		if (should_expand)
 			line = replace_variables(line);
-		write(write_fd, line, strlen(line));
+		write(write_fd, line, str_len(line));
 		write(write_fd, "\n", 1);
 		free(line);
 		line = readline("> ");
@@ -60,7 +60,7 @@ static void	handle_heredoc(t_command *command, t_token *token)
 	else
 		command->input.fd = pipe_fd[0];
 	command->input.type = IO_HEREDOC;
-	command->input.value = strdup(token->next->value);
+	command->input.value = str_dup(token->next->value);
 	if (command->input.fd < 0)
 		printf("minishell: heredoc: %s\n", strerror(errno));
 	else
@@ -81,7 +81,7 @@ static void	handle_input_redirections(t_command *command, t_token *token)
 		close(command->input.fd);
 	}
 	command->input.type = IN_REDIRECTION;
-	command->input.value = strdup(token->next->value);
+	command->input.value = str_dup(token->next->value);
 	command->input.fd = open(command->input.value, O_RDONLY);
 	if (command->input.fd < 0)
 		printf("minishell: %s: %s\n", command->input.value, strerror(errno));
@@ -100,14 +100,14 @@ static void	handle_output_redirections(t_command *command, t_token *token)
 	if (token->type == OUTPUT_REDIRECTION)
 	{
 		command->output.type = OUT_REDIRECTION;
-		command->output.value = strdup(token->next->value);
+		command->output.value = str_dup(token->next->value);
 		command->output.fd = open(
 				command->output.value, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	}
 	else if (token->type == OUTPUT_APPEND)
 	{
 		command->output.type = OUT_APPEND;
-		command->output.value = strdup(token->next->value);
+		command->output.value = str_dup(token->next->value);
 		command->output.fd = open(
 				command->output.value, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	}

@@ -11,26 +11,27 @@
 /* ************************************************************************** */
 
 #include "tokens.h"
+#include "utilities.h"
 
 t_token_type	get_token_type(const char *value)
 {
 	if (value == NULL)
 		return (INVALID);
-	if (strcmp(value, "<") == 0)
+	if (str_cmp(value, "<") == 0)
 		return (INPUT_REDIRECTION);
-	if (strcmp(value, ">") == 0)
+	if (str_cmp(value, ">") == 0)
 		return (OUTPUT_REDIRECTION);
-	if (strcmp(value, "<<") == 0)
+	if (str_cmp(value, "<<") == 0)
 		return (HEREDOC);
-	if (strcmp(value, ">>") == 0)
+	if (str_cmp(value, ">>") == 0)
 		return (OUTPUT_APPEND);
-	if (strcmp(value, "<<") == 0)
+	if (str_cmp(value, "<<") == 0)
 		return (HEREDOC);
-	if (strcmp(value, "|") == 0)
+	if (str_cmp(value, "|") == 0)
 		return (PIPE);
-	if (strcmp(value, " ") == 0)
+	if (str_cmp(value, " ") == 0)
 		return (SEPARATOR);
-	if (strcmp(value, "newline") == 0)
+	if (str_cmp(value, "newline") == 0)
 		return (NEW_LINE);
 	return (STRING);
 }

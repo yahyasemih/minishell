@@ -12,13 +12,63 @@
 
 #include "string_utils.h"
 
+size_t	str_len(const char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
+char	*str_dup(const char *str)
+{
+	char	*s;
+	int		i;
+
+	s = (char *)malloc((str_len(str) + 1) * sizeof(char));
+	if (s == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		s[i] = str[i];
+		i++;
+	}
+	s[i] = '\0';
+	return (s);
+}
+
+char	*str_n_dup(const char *str, size_t n)
+{
+	char	*s;
+	size_t	i;
+	size_t	len;
+
+	len = str_len(str);
+	if (n > len)
+		n = len;
+	s = (char *)malloc((n + 1) * sizeof(char));
+	if (s == NULL)
+		return (NULL);
+	i = 0;
+	while (str[i] && i < n)
+	{
+		s[i] = str[i];
+		i++;
+	}
+	s[i] = '\0';
+	return (s);
+}
+
 char	*str_join(char *s1, char *s2)
 {
 	char	*s;
 
 	if (!s1 || !s2)
 		return (NULL);
-	s = (char *)malloc(strlen(s1) + strlen(s2) + 1);
+	s = (char *)malloc(str_len(s1) + str_len(s2) + 1);
 	if (!s)
 		return (NULL);
 	s[0] = '\0';
@@ -29,59 +79,20 @@ char	*str_join(char *s1, char *s2)
 	return (s);
 }
 
-char	*get_var_name(char *str)
+char	*str_chr(const char *str, char c)
 {
-	int	i;
+	size_t	i;
 
-	if (isdigit(str[0]) || str[0] == '$' || str[0] == '?')
-		return (strndup(str, 1));
-	if (str[0] != '_' && !isalpha(str[0]))
+	if (str == NULL)
 		return (NULL);
-	i = 1;
-	while (str[i] && (str[i] == '_' || isalnum(str[i])))
-		i++;
-	return (strndup(str, i));
-}
-
-char	*get_value(char *key)
-{
-	if (key == NULL || *key == '\0')
-		return (strdup("$"));
-	else if (*key == '0')
-		return (strdup("minish"));
-	else if (*key == '?')
-		return (int_to_str(g_minishell_ctx.exit_status));
-	else if (*key == '$')
-		return (int_to_str(getpid()));
-	else if (getenv(key) != NULL)
-		return (strdup(getenv(key)));
-	else
-		return (strdup(""));
-}
-
-char	*replace_variables(char *str)
-{
-	char	*s;
-	char	*p;
-	char	*r;
-	char	*key;
-
-	s = strdup("");
-	r = strchr(str, '$');
-	p = str;
-	while (r != NULL)
+	i = 0;
+	while (str[i])
 	{
-		s = str_join(s, strndup(p, r - p));
-		key = get_var_name(r + 1);
-		s = str_join(s, get_value(key));
-		if (key)
-			p = r + strlen(key) + 1;
-		else
-			p = r + 1;
-		free(key);
-		r = strchr(p, '$');
+		if (str[i] == c)
+			return ((char *)(str + i));
+		i++;
 	}
-	s = str_join(s, strdup(p));
-	free(str);
-	return (s);
+	if (c == '\0')
+		return ((char *)(str + i));
+	return (NULL);
 }

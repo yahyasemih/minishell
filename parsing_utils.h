@@ -16,6 +16,7 @@
 # include "parsing.h"
 # include "tokens.h"
 # include "utilities.h"
+# include "env_variables_utils.h"
 
 int	handle_input_redirection(t_token **tokens, const char *str, size_t index);
 int	handle_output_redirection(t_token **tokens, const char *str, size_t index);

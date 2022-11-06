@@ -20,19 +20,19 @@ char	*get_cmd_from_path(t_command *command)
 
 	path = getenv("PATH");
 	if (path == NULL)
-		return (strdup(command->cmd));
-	p = strchr(path, ':');
+		return (str_dup(command->cmd));
+	p = str_chr(path, ':');
 	while (p != NULL)
 	{
-		curr = str_join(str_join(strndup(path, p - path), strdup("/")),
-				strdup(command->cmd));
+		curr = str_join(str_join(str_n_dup(path, p - path), str_dup("/")),
+				str_dup(command->cmd));
 		if (!access(curr, F_OK))
 			return (curr);
 		path = p + 1;
-		p = strchr(path, ':');
+		p = str_chr(path, ':');
 		free(curr);
 	}
-	curr = str_join(strdup(path), strdup(command->cmd));
+	curr = str_join(str_dup(path), str_dup(command->cmd));
 	if (!access(curr, F_OK))
 		return (curr);
 	free(curr);
@@ -44,10 +44,10 @@ char	*find_command_ful_path(t_command *command)
 	if (command->cmd == NULL || *(command->cmd) == '\0')
 		return (NULL);
 	if (command->cmd[0] == '/')
-		return (strdup(command->cmd));
-	if (strchr(command->cmd, '/') != NULL)
-		return (str_join(str_join(getcwd(NULL, 0), strdup("/")),
-				strdup(command->cmd)));
+		return (str_dup(command->cmd));
+	if (str_chr(command->cmd, '/') != NULL)
+		return (str_join(str_join(getcwd(NULL, 0), str_dup("/")),
+				str_dup(command->cmd)));
 	return (get_cmd_from_path(command));
 }
 

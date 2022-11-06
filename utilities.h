@@ -20,6 +20,7 @@
 # include "string_utils.h"
 # include "tokens.h"
 
+int		str_cmp(const char *s1, const char *s2);
 char	*int_to_str(pid_t pid);
 void	print_tokens(t_token *tokens);
 void	print_commands(t_command *commands);
