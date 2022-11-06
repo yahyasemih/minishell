@@ -31,6 +31,7 @@ typedef struct minishell_context_s
 	int		is_executing;
 	int		should_execute;
 	char	**env;
+	int		last_pid;
 }	t_minishell_context;
 
 t_minishell_context	g_minishell_ctx;

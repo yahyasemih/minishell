@@ -17,7 +17,10 @@
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <unistd.h>
+# include "minishell.h"
 
 void	check_path(const char *path, const char *src);
+char	*find_command_ful_path(t_command *command);
+char	*get_cmd_from_path(t_command *command);
 
 #endif //EXECUTION_UTILS_H
