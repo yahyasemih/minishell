@@ -30,6 +30,8 @@ typedef struct minishell_context_s
 	int		exit_status;
 	int		is_executing;
 	int		should_execute;
+	int		is_cancelled;
+	int		dup_stdin_fd;
 	char	**env;
 	int		last_pid;
 }	t_minishell_context;

@@ -27,12 +27,22 @@ void	cmd_signal_handler(int sig)
 	}
 }
 
+void	heredoc_signal_handler(int sig)
+{
+	if (sig == SIGINT)
+	{
+		g_minishell_ctx.dup_stdin_fd = dup(0);
+		close(0);
+		g_minishell_ctx.exit_status = 1;
+		g_minishell_ctx.is_cancelled = 1;
+	}
+}
+
 void	install_signal_handlers(void)
 {
 	rl_catch_signals = 0;
 	signal(SIGINT, cmd_signal_handler);
 	signal(SIGQUIT, cmd_signal_handler);
-	signal(SIGSTOP, cmd_signal_handler);
 }
 
 static const char	*first_signals(int sig)

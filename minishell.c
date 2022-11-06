@@ -30,7 +30,7 @@ static void	handle_pipe(t_command **commands, t_command **command)
 	(*command)->input.type = IO_PIPE;
 	if (pipe(pipe_fd) < 0)
 	{
-		memset(pipe_fd, -1, 2);
+		memset(pipe_fd, -1, 2 * sizeof(int));
 		printf("minishell: pipe error: %s\n", strerror(errno));
 	}
 	if (previous->output.type == IO_PIPE)
@@ -84,6 +84,7 @@ static void	init_minishell_context(char **env)
 	g_minishell_ctx.env = env;
 	g_minishell_ctx.exit_status = 0;
 	g_minishell_ctx.is_executing = 0;
+	g_minishell_ctx.is_cancelled = 0;
 	g_minishell_ctx.should_execute = 1;
 }
 
@@ -111,6 +112,7 @@ int	main(int argc, char **argv, char **env)
 		free_commands(commands);
 		free(line);
 		g_minishell_ctx.should_execute = 1;
+		g_minishell_ctx.is_cancelled = 0;
 	}
 	system("leaks minishell");
 	return (0);

@@ -16,8 +16,13 @@ static void	process_heredoc(char *delimiter, int write_fd, int should_expand)
 {
 	char	*line;
 
+	if (g_minishell_ctx.is_cancelled)
+		return ;
+	signal(SIGINT, heredoc_signal_handler);
+	signal(SIGQUIT, heredoc_signal_handler);
 	line = readline("> ");
-	while (line != NULL && strcmp(line, delimiter) != 0)
+	while (!g_minishell_ctx.is_cancelled && line != NULL
+		&& strcmp(line, delimiter) != 0)
 	{
 		if (should_expand)
 			line = replace_variables(line);
@@ -27,12 +32,21 @@ static void	process_heredoc(char *delimiter, int write_fd, int should_expand)
 		line = readline("> ");
 	}
 	free(line);
+	if (g_minishell_ctx.is_cancelled)
+	{
+		dup2(g_minishell_ctx.dup_stdin_fd, 0);
+		close(g_minishell_ctx.dup_stdin_fd);
+	}
+	signal(SIGINT, cmd_signal_handler);
+	signal(SIGQUIT, cmd_signal_handler);
 }
 
 static void	handle_heredoc(t_command *command, t_token *token)
 {
 	int	pipe_fd[2];
 
+	if (g_minishell_ctx.is_cancelled)
+		return ;
 	if ((command->input.fd < 0 && command->input.value != NULL)
 		|| (command->output.fd < 0 && command->output.value != NULL))
 		return ;
