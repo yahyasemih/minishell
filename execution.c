@@ -31,14 +31,19 @@ static void	execute_command(t_command *command, t_command *commands)
 	char	*path;
 	int		pid;
 
+	if (is_builtin(command->cmd) && nb_commands(commands) == 1)
+	{
+		g_minishell_ctx.exit_status = execute_builtin(command, commands);
+		return ;
+	}
 	pid = fork();
 	if (pid == 0)
 	{
 		dup2(command->input.fd, 0);
 		dup2(command->output.fd, 1);
 		close_fds(commands);
-		if (is_builtin(command))
-			exit(execute_builtin(command));
+		if (is_builtin(command->cmd))
+			exit(execute_builtin(command, commands));
 		path = find_command_ful_path(command);
 		check_path(path, command->cmd);
 		execve(path, command->args, g_minishell_ctx.env);
@@ -77,7 +82,8 @@ void	execute_commands(t_command *commands)
 	command = commands;
 	while (command != NULL)
 	{
-		if (command->cmd != NULL)
+		if (command->cmd != NULL
+			&& (!is_builtin(command->cmd) || nb_commands(commands) != 1))
 			nb_non_empty_cmds++;
 		if (command->input.fd == -1 || command->output.fd == -1)
 			g_minishell_ctx.exit_status = 1;

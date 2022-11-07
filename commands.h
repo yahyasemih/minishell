@@ -42,6 +42,7 @@ typedef struct command_s {
 	struct command_s	*next;
 }	t_command;
 
+int			nb_commands(t_command *commands);
 void		add_command(t_command **commands, t_command *command);
 t_command	*new_command(void);
 void		append_arg(t_command *command, char *arg);

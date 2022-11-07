@@ -11,17 +11,30 @@
 /* ************************************************************************** */
 
 #include "builtins_utils.h"
+#include "utilities.h"
+#include "builtins.h"
 
-// TODO: add builtin check logic here
-int	is_builtin(t_command *command)
+int	is_builtin(const char *command)
 {
-	(void)command;
-	return (0);
+	return (!str_cmp("cd", command)
+		|| !str_cmp("pwd", command)
+		|| !str_cmp("env", command)
+		|| !str_cmp("echo", command)
+		|| !str_cmp("exit", command)
+		|| !str_cmp("unset", command)
+		|| !str_cmp("export", command));
 }
 
 // TODO: add builtin logic here
-int	execute_builtin(t_command *command)
+int	execute_builtin(t_command *command, t_command *commands)
 {
-	(void)command;
+	if (str_cmp("cd", command->cmd) == 0)
+		return (cd_builtin(command));
+	if (str_cmp("pwd", command->cmd) == 0)
+		return (pwd_builtin(command));
+	if (str_cmp("echo", command->cmd) == 0)
+		return (echo_builtin(command));
+	if (str_cmp("exit", command->cmd) == 0)
+		return (exit_builtin(command, commands));
 	return (0);
 }

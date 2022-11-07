@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.h                                    :+:      :+:    :+:   */
+/*   pwd_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,14 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_UTILS_H
-# define BUILTINS_UTILS_H
+#include "builtins.h"
 
-# include "commands.h"
-# include "builtins_utils.h"
+int	pwd_builtin(t_command *command)
+{
+	char	*pwd;
 
-int	is_builtin(const char *command);
-
-int	execute_builtin(t_command *command, t_command *commands);
-
-#endif //BUILTINS_UTILS_H
+	pwd = getcwd(NULL, 0);
+	if (pwd == NULL)
+	{
+		write(2, "minishell: pwd: could not current working directory\n", 52);
+		return (1);
+	}
+	write(command->output.fd, pwd, str_len(pwd));
+	write(command->output.fd, "\n", 1);
+	free(pwd);
+	return (0);
+}

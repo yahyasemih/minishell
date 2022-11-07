@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.h                                    :+:      :+:    :+:   */
+/*   builtins.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,14 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_UTILS_H
-# define BUILTINS_UTILS_H
+#ifndef BUILTINS_H
+# define BUILTINS_H
 
 # include "commands.h"
-# include "builtins_utils.h"
+# include "string_utils.h"
 
-int	is_builtin(const char *command);
+int	cd_builtin(t_command *command);
+int	pwd_builtin(t_command *command);
+int	echo_builtin(t_command *command);
+int	exit_builtin(t_command *command, t_command *commands);
 
-int	execute_builtin(t_command *command, t_command *commands);
-
-#endif //BUILTINS_UTILS_H
+#endif //BUILTINS_H

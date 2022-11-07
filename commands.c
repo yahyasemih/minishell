@@ -13,6 +13,19 @@
 #include "commands.h"
 #include "string_utils.h"
 
+int	nb_commands(t_command *commands)
+{
+	int	i;
+
+	i = 0;
+	while (commands != NULL)
+	{
+		i++;
+		commands = commands->next;
+	}
+	return (i);
+}
+
 void	add_command(t_command **commands, t_command *command)
 {
 	t_command	*it;

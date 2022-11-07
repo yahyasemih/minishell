@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.h                                    :+:      :+:    :+:   */
+/*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,14 +10,43 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_UTILS_H
-# define BUILTINS_UTILS_H
+#include "builtins.h"
 
-# include "commands.h"
-# include "builtins_utils.h"
+static int	is_valid_option(const char *arg)
+{
+	int	i;
 
-int	is_builtin(const char *command);
+	if (arg == NULL || arg[0] != '-')
+		return (0);
+	i = 1;
+	while (arg[i])
+	{
+		if (arg[i] != 'n')
+			return (0);
+		++i;
+	}
+	return (1);
+}
 
-int	execute_builtin(t_command *command, t_command *commands);
+int	echo_builtin(t_command *command)
+{
+	int		need_newline;
+	size_t	i;
 
-#endif //BUILTINS_UTILS_H
+	need_newline = 1;
+	i = 1;
+	while (i < command->nb_args && is_valid_option(command->args[i]))
+		++i;
+	if (i > 1)
+		need_newline = 0;
+	while (i < command->nb_args)
+	{
+		write(command->output.fd, command->args[i], str_len(command->args[i]));
+		++i;
+		if (i < command->nb_args)
+			write(command->output.fd, " ", 1);
+	}
+	if (need_newline)
+		write(command->output.fd, "\n", 1);
+	return (0);
+}
