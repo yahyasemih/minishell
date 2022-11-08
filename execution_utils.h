@@ -19,7 +19,7 @@
 # include <unistd.h>
 # include "minishell.h"
 
-void	check_path(const char *path, const char *src);
+void	check_path(char *path, const char *src);
 char	*find_command_ful_path(t_command *command);
 char	*get_cmd_from_path(t_command *command);
 

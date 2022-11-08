@@ -27,9 +27,24 @@ static void	close_fds(t_command *commands)
 	}
 }
 
-static void	execute_command(t_command *command, t_command *commands)
+static void	run_command(t_command *command)
 {
 	char	*path;
+	char	**env;
+
+	path = find_command_ful_path(command);
+	check_path(path, command->cmd);
+	env = get_full_env();
+	execve(path, command->args, env);
+	free(path);
+	free(env);
+	dup2(2, 1);
+	printf("minishell: %s: %s\n", command->cmd, strerror(errno));
+	exit(126);
+}
+
+static void	execute_command(t_command *command, t_command *commands)
+{
 	int		pid;
 
 	if (is_builtin(command->cmd) && nb_commands(commands) == 1)
@@ -38,6 +53,11 @@ static void	execute_command(t_command *command, t_command *commands)
 		return ;
 	}
 	pid = fork();
+	if (pid < 0)
+	{
+		printf("minishell: fork: %s\n", strerror(errno));
+		return ;
+	}
 	if (pid == 0)
 	{
 		if (is_builtin(command->cmd))
@@ -45,13 +65,7 @@ static void	execute_command(t_command *command, t_command *commands)
 		dup2(command->input.fd, 0);
 		dup2(command->output.fd, 1);
 		close_fds(commands);
-		path = find_command_ful_path(command);
-		check_path(path, command->cmd);
-		execve(path, command->args, get_full_env());
-		free(path);
-		dup2(2, 1);
-		printf("minishell: %s: %s\n", command->cmd, strerror(errno));
-		exit(126);
+		run_command(command);
 	}
 	g_minishell_ctx.last_pid = pid;
 }

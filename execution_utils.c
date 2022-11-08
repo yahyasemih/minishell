@@ -62,7 +62,7 @@ static int	is_directory(const char *path)
 	return (0);
 }
 
-void	check_path(const char *path, const char *src)
+void	check_path(char *path, const char *src)
 {
 	if (path == NULL)
 	{
@@ -70,10 +70,18 @@ void	check_path(const char *path, const char *src)
 		printf("minishell: %s: command not found\n", src);
 		exit(127);
 	}
+	if (path[0] == '/' && access(path, F_OK))
+	{
+		dup2(2, 1);
+		printf("minishell: %s: No such file or directory\n", src);
+		free(path);
+		exit(127);
+	}
 	if (is_directory(path))
 	{
 		dup2(2, 1);
 		printf("minishell: %s: is a directory\n", src);
+		free(path);
 		exit(126);
 	}
 }
