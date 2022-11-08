@@ -133,6 +133,5 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 	}
 	clear_env_list();
-	system("leaks minishell");
 	return (g_minishell_ctx.exit_status);
 }
