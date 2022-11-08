@@ -20,6 +20,8 @@ static char	*get_key(const char *entry)
 	p = str_chr(entry, '=');
 	if (p == NULL)
 		key = str_dup(entry);
+	else if (p != entry && *(p - 1) == '+')
+		key = str_n_dup(entry, p - entry - 1);
 	else
 		key = str_n_dup(entry, p - entry);
 	return (key);
@@ -27,14 +29,24 @@ static char	*get_key(const char *entry)
 
 static char	*get_value(const char *entry)
 {
+	char	*key;
 	char	*value;
 	char	*p;
 
+	key = get_key(entry);
 	p = str_chr(entry, '=');
 	if (p == NULL)
 		value = NULL;
 	else
 		value = str_dup(p + 1);
+	if (p != NULL && p != entry && *(p - 1) == '+' && get_env(key) != NULL)
+	{
+		if (value == NULL)
+			value = str_dup(get_env(key));
+		else
+			value = str_join(str_dup(get_env(key)), value);
+	}
+	free(key);
 	return (value);
 }
 
