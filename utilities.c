@@ -53,39 +53,30 @@ char	*int_to_str(int pid)
 	return (str_dup(buff));
 }
 
-void	print_tokens(t_token *tokens)
+int	str_to_int(const char *str)
 {
-	while (tokens)
-	{
-		printf("type %d value '%s' quoted %d\n", tokens->type, tokens->value,
-			tokens->quoted);
-		tokens = tokens->next;
-	}
-}
+	long long	val;
+	int			i;
+	int			sign;
 
-void	print_commands(t_command *commands)
-{
-	int	i;
-
-	while (commands)
+	if (str == NULL)
+		return (0);
+	i = 0;
+	sign = 1;
+	while (str_chr(" \t\r\n\v\f", str[i]) != NULL)
+		++i;
+	if (str[i] == '+' || str[i] == '-')
 	{
-		printf("cmd '%s', input : '%s' (%d), output : '%s' (%d),  args(%zu) : ",
-			commands->cmd, commands->input.value, commands->input.fd,
-			commands->output.value, commands->output.fd, commands->nb_args);
-		i = 0;
-		if (commands->args)
-		{
-			printf("[");
-			while (commands->args[i])
-			{
-				printf("'%s', ", commands->args[i]);
-				i++;
-			}
-			printf("NULL]");
-		}
-		printf("\n");
-		commands = commands->next;
+		if (str[i] == '-')
+			sign = -1;
+		++i;
 	}
+	val = 0;
+	while (str[i] >= '0' && str[i] <= '9' && val >= 0)
+		val = val * 10 + str[i++] - '0';
+	if (str[i] != '\0' || val < 0)
+		return ((int)(INT64_MAX + (sign == -1)));
+	return ((int)val * sign);
 }
 
 int	is_redirection(t_token *token)

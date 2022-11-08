@@ -20,7 +20,7 @@ static int	is_valid_arg(const char *arg)
 	if (arg == NULL)
 		return (0);
 	i = 0;
-	while (str_chr("\t \v\f", arg[i]) != NULL)
+	while (str_chr(" \t\r\n\v\f", arg[i]) != NULL)
 		++i;
 	if (arg[i] == '+' || arg[i] == '-')
 		++i;
@@ -47,7 +47,7 @@ static int	has_valid_arguments(t_command *command)
 	return (1);
 }
 
-static int	str_to_int(const char *str, int *has_error)
+static int	str_status_to_int(const char *str, int *has_error)
 {
 	long long	val;
 	int			i;
@@ -56,7 +56,7 @@ static int	str_to_int(const char *str, int *has_error)
 	*has_error = 0;
 	i = 0;
 	sign = 1;
-	while (str_chr("\t \v\f", str[i]) != NULL)
+	while (str_chr(" \t\r\n\v\f", str[i]) != NULL)
 		++i;
 	if (str[i] == '+' || str[i] == '-')
 	{
@@ -86,7 +86,7 @@ static int	get_exit_status(t_command *command)
 		write(2, "minishell: exit: too many arguments\n", 36);
 		return (1);
 	}
-	status = str_to_int(command->args[1], &has_error);
+	status = str_status_to_int(command->args[1], &has_error);
 	if (!is_valid_arg(command->args[1]) || has_error)
 	{
 		write(2, "minishell: exit: ", 17);

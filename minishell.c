@@ -81,7 +81,25 @@ static t_command	*get_commands(const char *line)
 
 static void	init_minishell(char **env)
 {
+	char	*p;
+	int		sh_lvl;
+
 	g_minishell_ctx.env_list = generate_env(env);
+	if (getenv("PWD") == NULL)
+	{
+		p = getcwd(NULL, 0);
+		set_env("PWD", p);
+		free(p);
+	}
+	sh_lvl = str_to_int(getenv("SHLVL"));
+	if (sh_lvl < 0 || sh_lvl > 999)
+		sh_lvl = 0;
+	if (sh_lvl == 999)
+		p = str_dup("");
+	else
+		p = int_to_str(sh_lvl + 1);
+	set_env("SHLVL", p);
+	free(p);
 	g_minishell_ctx.exit_status = 0;
 	g_minishell_ctx.is_executing = 0;
 	g_minishell_ctx.is_cancelled = 0;

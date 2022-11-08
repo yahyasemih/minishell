@@ -21,9 +21,8 @@
 # include "tokens.h"
 
 int		str_cmp(const char *s1, const char *s2);
-char	*int_to_str(pid_t pid);
-void	print_tokens(t_token *tokens);
-void	print_commands(t_command *commands);
+char	*int_to_str(int pid);
+int		str_to_int(const char *str);
 int		is_redirection(t_token *token);
 
 #endif //UTILITIES_H
