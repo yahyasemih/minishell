@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <string.h>
 # include "commands.h"
+# include "environment.h"
 # include "execution.h"
 # include "parsing.h"
 # include "redirections_utils.h"
@@ -32,7 +33,7 @@ typedef struct minishell_context_s
 	int		should_execute;
 	int		is_cancelled;
 	int		dup_stdin_fd;
-	char	**env;
+	t_env	*env_list;
 	int		last_pid;
 }	t_minishell_context;
 

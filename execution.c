@@ -13,6 +13,7 @@
 #include "builtins_utils.h"
 #include "execution_utils.h"
 #include "execution.h"
+#include "environment_utils.h"
 
 static void	close_fds(t_command *commands)
 {
@@ -46,7 +47,7 @@ static void	execute_command(t_command *command, t_command *commands)
 		close_fds(commands);
 		path = find_command_ful_path(command);
 		check_path(path, command->cmd);
-		execve(path, command->args, g_minishell_ctx.env);
+		execve(path, command->args, get_full_env());
 		free(path);
 		dup2(2, 1);
 		printf("minishell: %s: %s\n", command->cmd, strerror(errno));

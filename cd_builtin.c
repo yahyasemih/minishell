@@ -29,9 +29,9 @@ static char	*handle_special_paths(t_command *command)
 	char	*path;
 
 	if (command->nb_args <= 1)
-		path = getenv("HOME");
+		path = get_env("HOME");
 	else if (str_cmp(command->args[1], "-") == 0)
-		path = getenv("OLDPWD");
+		path = get_env("OLDPWD");
 	else
 		path = command->args[1];
 	if (path == NULL)
@@ -57,14 +57,15 @@ int	cd_builtin(t_command *command)
 		return (error_msg(command->cmd, path, 1));
 	if (command->nb_args >= 2 && str_cmp(command->args[1], "-") == 0)
 	{
-		write(command->output.fd, getenv("OLDPWD"), str_len(getenv("OLDPWD")));
+		write(command->output.fd, get_env("OLDPWD"),
+			str_len(get_env("OLDPWD")));
 		write(command->output.fd, "\n", 1);
 	}
-	pwd = getenv("PWD");
+	pwd = get_env("PWD");
 	if (pwd != NULL)
-		setenv("OLDPWD", getenv("PWD"), 1);
+		set_env("OLDPWD", get_env("PWD"));
 	pwd = getcwd(NULL, 0);
-	setenv("PWD", pwd, 1);
+	set_env("PWD", pwd);
 	free(pwd);
 	return (0);
 }

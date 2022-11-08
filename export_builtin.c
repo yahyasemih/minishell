@@ -47,7 +47,7 @@ static int	is_valid_key(const char *key)
 		return (0);
 	i = 1;
 	while (key[i] == '_' || (key[i] >= '0' && key[i] <= '9')
-		|| (key[i] >= 'a' && key[i] <= 'z') || (key[i] >= 'A' && key[i] <= 'A'))
+		|| (key[i] >= 'a' && key[i] <= 'z') || (key[i] >= 'A' && key[i] <= 'Z'))
 		++i;
 	return (key[i] == '\0');
 }
@@ -79,7 +79,7 @@ int	export_builtin(t_command *command)
 			value = get_value(command->args[i]);
 			if (value != NULL)
 			{
-				setenv(key, value, 1);
+				set_env(key, value);
 				free(value);
 			}
 		}

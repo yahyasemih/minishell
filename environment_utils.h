@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_builtin.c                                    :+:      :+:    :+:   */
+/*   environment_utils.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#ifndef ENVIRONMENT_UTILS_H
+# define ENVIRONMENT_UTILS_H
 
-int	unset_builtin(t_command *command)
-{
-	size_t	i;
+# include "minishell.h"
 
-	i = 1;
-	while (i < command->nb_args)
-	{
-		unset_env(command->args[i]);
-		++i;
-	}
-	return (0);
-}
+char	**get_full_env(void);
+t_env	*generate_env(char **env);
+size_t	get_env_size(t_env *env);
+void	add_new_env_entry(t_env **env_list, char *entry);
+void	clear_env_list(void);
+
+#endif //ENVIRONMENT_UTILS_H

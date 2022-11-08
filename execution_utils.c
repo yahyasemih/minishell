@@ -18,7 +18,7 @@ char	*get_cmd_from_path(t_command *command)
 	char	*path;
 	char	*curr;
 
-	path = getenv("PATH");
+	path = get_env("PATH");
 	if (path == NULL)
 		return (str_dup(command->cmd));
 	p = str_chr(path, ':');

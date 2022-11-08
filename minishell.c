@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "environment_utils.h"
 
 static void	handle_pipe(t_command **commands, t_command **command)
 {
@@ -78,13 +79,14 @@ static t_command	*get_commands(const char *line)
 	return (commands);
 }
 
-static void	init_minishell_context(char **env)
+static void	init_minishell(char **env)
 {
-	g_minishell_ctx.env = env;
+	g_minishell_ctx.env_list = generate_env(env);
 	g_minishell_ctx.exit_status = 0;
 	g_minishell_ctx.is_executing = 0;
 	g_minishell_ctx.is_cancelled = 0;
 	g_minishell_ctx.should_execute = 1;
+	install_signal_handlers();
 }
 
 int	main(int argc, char **argv, char **env)
@@ -94,8 +96,7 @@ int	main(int argc, char **argv, char **env)
 
 	if (argc != 1)
 		exit(printf("Usage: %s with no argument\n", argv[0]));
-	init_minishell_context(env);
-	install_signal_handlers();
+	init_minishell(env);
 	while (1)
 	{
 		line = readline("minish-1.0$ ");
@@ -113,6 +114,7 @@ int	main(int argc, char **argv, char **env)
 		g_minishell_ctx.should_execute = 1;
 		g_minishell_ctx.is_cancelled = 0;
 	}
+	clear_env_list();
 	system("leaks minishell");
 	return (0);
 }

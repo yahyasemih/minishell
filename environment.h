@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_builtin.c                                    :+:      :+:    :+:   */
+/*   environment.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtins.h"
+#ifndef ENVIRONMENT_H
+# define ENVIRONMENT_H
 
-int	unset_builtin(t_command *command)
+typedef struct env_s
 {
-	size_t	i;
+	char			*entry;
+	struct env_s	*next;
+}	t_env;
 
-	i = 1;
-	while (i < command->nb_args)
-	{
-		unset_env(command->args[i]);
-		++i;
-	}
-	return (0);
-}
+void	set_env(const char *name, const char *value);
+char	*get_env(const char *name);
+void	unset_env(const char *name);
+
+#endif //ENVIRONMENT_H

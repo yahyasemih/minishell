@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "builtins.h"
+#include "environment_utils.h"
 
 static int	is_valid_arg(const char *arg)
 {
@@ -110,6 +111,7 @@ int	exit_builtin(t_command *command, t_command *commands)
 	if (command->nb_args <= 2 || !is_valid_arg(command->args[1]))
 	{
 		free_commands(commands);
+		clear_env_list();
 		exit(exit_status);
 	}
 	return (1);

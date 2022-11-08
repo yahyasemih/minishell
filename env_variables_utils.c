@@ -46,8 +46,8 @@ static char	*get_value(char *key)
 		return (int_to_str(g_minishell_ctx.exit_status));
 	else if (*key == '$')
 		return (int_to_str(getpid()));
-	else if (getenv(key) != NULL)
-		return (str_dup(getenv(key)));
+	else if (get_env(key) != NULL)
+		return (str_dup(get_env(key)));
 	else
 		return (str_dup(""));
 }

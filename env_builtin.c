@@ -14,16 +14,16 @@
 
 int	env_builtin(t_command *command)
 {
-	size_t	i;
+	t_env	*env_it;
 
 	(void)command;
-	i = 0;
-	while (g_minishell_ctx.env[i])
+	env_it = g_minishell_ctx.env_list;
+	while (env_it != NULL)
 	{
-		write(command->output.fd, g_minishell_ctx.env[i],
-			str_len(g_minishell_ctx.env[i]));
+		write(command->output.fd, env_it->entry,
+			str_len(env_it->entry));
 		write(command->output.fd, "\n", 1);
-		++i;
+		env_it = env_it->next;
 	}
 	return (0);
 }
