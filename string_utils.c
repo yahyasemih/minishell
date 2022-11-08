@@ -65,15 +65,25 @@ char	*str_n_dup(const char *str, size_t n)
 char	*str_join(char *s1, char *s2)
 {
 	char	*s;
+	int		i;
+	int		j;
 
-	if (!s1 || !s2)
+	if (s1 == NULL || s2 == NULL)
+	{
+		free(s1);
+		free(s2);
 		return (NULL);
+	}
 	s = (char *)malloc(str_len(s1) + str_len(s2) + 1);
-	if (!s)
+	if (s == NULL)
 		return (NULL);
-	s[0] = '\0';
-	strcat(s, s1);
-	strcat(s, s2);
+	i = -1;
+	while (s1[++i] != '\0')
+		s[i] = s1[i];
+	j = -1;
+	while (s2[++j] != '\0')
+		s[i + j] = s2[j];
+	s[i + j] = '\0';
 	free(s1);
 	free(s2);
 	return (s);
