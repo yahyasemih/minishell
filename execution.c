@@ -39,11 +39,11 @@ static void	execute_command(t_command *command, t_command *commands)
 	pid = fork();
 	if (pid == 0)
 	{
+		if (is_builtin(command->cmd))
+			exit(execute_builtin(command, commands));
 		dup2(command->input.fd, 0);
 		dup2(command->output.fd, 1);
 		close_fds(commands);
-		if (is_builtin(command->cmd))
-			exit(execute_builtin(command, commands));
 		path = find_command_ful_path(command);
 		check_path(path, command->cmd);
 		execve(path, command->args, g_minishell_ctx.env);

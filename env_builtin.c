@@ -20,8 +20,9 @@ int	env_builtin(t_command *command)
 	i = 0;
 	while (g_minishell_ctx.env[i])
 	{
-		write(1, g_minishell_ctx.env[i], str_len(g_minishell_ctx.env[i]));
-		write(1, "\n", 1);
+		write(command->output.fd, g_minishell_ctx.env[i],
+			str_len(g_minishell_ctx.env[i]));
+		write(command->output.fd, "\n", 1);
 		++i;
 	}
 	return (0);
