@@ -92,8 +92,10 @@ static void	init_minishell(char **env)
 		free(p);
 	}
 	sh_lvl = str_to_int(getenv("SHLVL"));
-	if (sh_lvl < 0 || sh_lvl > 999)
+	if (sh_lvl > 999)
 		sh_lvl = 0;
+	else if (sh_lvl < 0)
+		sh_lvl = -1;
 	if (sh_lvl == 999)
 		p = str_dup("");
 	else
@@ -102,8 +104,6 @@ static void	init_minishell(char **env)
 	free(p);
 	g_minishell_ctx.exit_status = 0;
 	g_minishell_ctx.is_executing = 0;
-	g_minishell_ctx.is_cancelled = 0;
-	g_minishell_ctx.should_execute = 1;
 	install_signal_handlers();
 }
 
@@ -117,6 +117,8 @@ int	main(int argc, char **argv, char **env)
 	init_minishell(env);
 	while (1)
 	{
+		g_minishell_ctx.should_execute = 1;
+		g_minishell_ctx.is_cancelled = 0;
 		line = readline("minish-1.0$ ");
 		if (line == NULL)
 			break ;
@@ -129,8 +131,6 @@ int	main(int argc, char **argv, char **env)
 			g_minishell_ctx.exit_status = 258;
 		free_commands(commands);
 		free(line);
-		g_minishell_ctx.should_execute = 1;
-		g_minishell_ctx.is_cancelled = 0;
 	}
 	clear_env_list();
 	system("leaks minishell");
