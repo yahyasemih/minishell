@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,18 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "builtins.h"
 
-# include "commands.h"
-# include "string_utils.h"
+int	unset_builtin(t_command *command)
+{
+	size_t	i;
 
-int	cd_builtin(t_command *command);
-int	env_builtin(t_command *command);
-int	pwd_builtin(t_command *command);
-int	echo_builtin(t_command *command);
-int	exit_builtin(t_command *command, t_command *commands);
-int	unset_builtin(t_command *command);
-int	export_builtin(t_command *command);
-
-#endif //BUILTINS_H
+	i = 1;
+	while (i < command->nb_args)
+	{
+		unsetenv(command->args[i]);
+		++i;
+	}
+	return (0);
+}

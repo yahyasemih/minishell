@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.h                                         :+:      :+:    :+:   */
+/*   env_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,18 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILTINS_H
-# define BUILTINS_H
+#include "builtins.h"
 
-# include "commands.h"
-# include "string_utils.h"
+int	env_builtin(t_command *command)
+{
+	size_t	i;
 
-int	cd_builtin(t_command *command);
-int	env_builtin(t_command *command);
-int	pwd_builtin(t_command *command);
-int	echo_builtin(t_command *command);
-int	exit_builtin(t_command *command, t_command *commands);
-int	unset_builtin(t_command *command);
-int	export_builtin(t_command *command);
-
-#endif //BUILTINS_H
+	(void)command;
+	i = 0;
+	while (g_minishell_ctx.env[i])
+	{
+		write(1, g_minishell_ctx.env[i], str_len(g_minishell_ctx.env[i]));
+		write(1, "\n", 1);
+		++i;
+	}
+	return (0);
+}

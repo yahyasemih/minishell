@@ -17,24 +17,29 @@
 int	is_builtin(const char *command)
 {
 	return (!str_cmp("cd", command)
-		|| !str_cmp("pwd", command)
 		|| !str_cmp("env", command)
+		|| !str_cmp("pwd", command)
 		|| !str_cmp("echo", command)
 		|| !str_cmp("exit", command)
 		|| !str_cmp("unset", command)
 		|| !str_cmp("export", command));
 }
 
-// TODO: add builtin logic here
 int	execute_builtin(t_command *command, t_command *commands)
 {
 	if (str_cmp("cd", command->cmd) == 0)
 		return (cd_builtin(command));
+	if (str_cmp("env", command->cmd) == 0)
+		return (env_builtin(command));
 	if (str_cmp("pwd", command->cmd) == 0)
 		return (pwd_builtin(command));
 	if (str_cmp("echo", command->cmd) == 0)
 		return (echo_builtin(command));
 	if (str_cmp("exit", command->cmd) == 0)
 		return (exit_builtin(command, commands));
+	if (str_cmp("unset", command->cmd) == 0)
+		return (unset_builtin(command));
+	if (str_cmp("export", command->cmd) == 0)
+		return (export_builtin(command));
 	return (0);
 }
