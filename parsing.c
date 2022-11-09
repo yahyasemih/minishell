@@ -32,7 +32,7 @@ t_token	*parse_command(const char *str)
 		}
 		else if (str[i] == '"' || str[i] == '\'')
 			i += handle_quoted_string(&tokens, str, i + 1, str[i]) + 1;
-		else if (str[i] == ' ')
+		else if (str[i] == ' ' || str[i] == '\t')
 			i += handle_separator(&tokens, str, i);
 		else
 			i += handle_simple_string(&tokens, str, i);

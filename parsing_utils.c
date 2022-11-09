@@ -77,7 +77,7 @@ int	handle_simple_string(t_token **tokens, const char *str, size_t index)
 	t_token	*last;
 
 	i = 0;
-	while (str[index + i] != '\0' && str_chr(" \"'<>|", str[index + i]) == NULL)
+	while (str[index + i] && !str_chr(" \t\"'<>|", str[index + i]))
 		++i;
 	val = str_n_dup(str + index, i);
 	if (str_chr(val, '$') != NULL
@@ -96,7 +96,7 @@ int	handle_separator(t_token **tokens, const char *str, size_t index)
 	int	i;
 
 	i = 0;
-	while (str[index + i] == ' ')
+	while (str[index + i] == ' ' || str[index + i] == '\t')
 		++i;
 	if (i > 0)
 		add_token(tokens, str_dup(" "));
