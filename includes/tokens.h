@@ -36,7 +36,7 @@ typedef struct token_s {
 }	t_token;
 
 t_token_type	get_token_type(const char *value);
-void			add_token(t_token **tokens, char *value);
+void			add_token(t_token **tokens, char *value, int is_string);
 t_token			*last_token(t_token *tokens);
 void			free_token(t_token *token);
 void			free_tokens(t_token *tokens);

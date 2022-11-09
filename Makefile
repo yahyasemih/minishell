@@ -16,6 +16,7 @@ SRCS = minishell.c \
 	execution/signals.c \
 	execution/execution.c \
 	execution/execution_utils.c \
+	misc/str_split.c \
 	misc/utilities.c \
 	misc/string_utils.c \
 	parsing/tokens.c \

@@ -36,7 +36,7 @@ t_token_type	get_token_type(const char *value)
 	return (STRING);
 }
 
-void	add_token(t_token **tokens, char *value)
+void	add_token(t_token **tokens, char *value, int is_string)
 {
 	t_token	*token;
 	t_token	*it;
@@ -47,7 +47,10 @@ void	add_token(t_token **tokens, char *value)
 	if (token == NULL)
 		return ;
 	token->next = NULL;
-	token->type = get_token_type(value);
+	if (is_string)
+		token->type = STRING;
+	else
+		token->type = get_token_type(value);
 	token->value = value;
 	token->quoted = 0;
 	if (*tokens == NULL)

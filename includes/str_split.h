@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utilities.h                                        :+:      :+:    :+:   */
+/*   str_split.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yez-zain <yez-zain@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/24 08:07:54 by yez-zain          #+#    #+#             */
-/*   Updated: 2022/10/24 08:07:56 by yez-zain         ###   ########.fr       */
+/*   Created: 2022/10/24 03:38:20 by yez-zain          #+#    #+#             */
+/*   Updated: 2022/10/24 03:38:24 by yez-zain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef UTILITIES_H
-# define UTILITIES_H
+#ifndef STR_SPLIT_H
+# define STR_SPLIT_H
 
-# include <stdio.h>
 # include <stdlib.h>
-
-# include "commands.h"
 # include "string_utils.h"
-# include "tokens.h"
 
-int		str_cmp(const char *s1, const char *s2);
-char	*int_to_str(int pid);
-int		str_to_int(const char *str);
-int		str_word_len(const char *str);
-int		is_redirection(t_token *token);
+char	**str_split(const char *str, const char *sep);
 
-#endif //UTILITIES_H
+#endif //STR_SPLIT_H

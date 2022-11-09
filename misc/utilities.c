@@ -79,6 +79,16 @@ int	str_to_int(const char *str)
 	return ((int)val * sign);
 }
 
+int	str_word_len(const char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && !str_chr(" \t\"'<>|", str[i]))
+		++i;
+	return (i);
+}
+
 int	is_redirection(t_token *token)
 {
 	return (token->type == HEREDOC || token->type == INPUT_REDIRECTION

@@ -27,7 +27,7 @@ t_token	*parse_command(const char *str)
 			i += handle_output_redirection(&tokens, str, i);
 		else if (str[i] == '|')
 		{
-			add_token(&tokens, str_dup("|"));
+			add_token(&tokens, str_dup("|"), 0);
 			i++;
 		}
 		else if (str[i] == '"' || str[i] == '\'')
@@ -37,7 +37,7 @@ t_token	*parse_command(const char *str)
 		else
 			i += handle_simple_string(&tokens, str, i);
 	}
-	add_token(&tokens, str_dup("newline"));
+	add_token(&tokens, str_dup("newline"), 0);
 	return (tokens);
 }
 
