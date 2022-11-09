@@ -15,6 +15,6 @@
 
 # include "string_utils.h"
 
-char	*replace_variables(char *str);
+char	*replace_variables(char *str, char *initial_value);
 
 #endif //ENV_VARIABLES_UTILS_H

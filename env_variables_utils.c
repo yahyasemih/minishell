@@ -49,22 +49,23 @@ static char	*get_value(char *key)
 	else if (get_env(key) != NULL)
 		return (str_dup(get_env(key)));
 	else
-		return (str_dup(""));
+		return (NULL);
 }
 
-char	*replace_variables(char *str)
+char	*replace_variables(char *str, char *initial_value)
 {
 	char	*s;
 	char	*p;
 	char	*r;
 	char	*key;
 
-	s = str_dup("");
+	s = initial_value;
 	r = str_chr(str, '$');
 	p = str;
 	while (r != NULL)
 	{
-		s = str_join(s, str_n_dup(p, r - p));
+		if (r != p)
+			s = str_join(s, str_n_dup(p, r - p));
 		key = get_var_name(r + 1);
 		s = str_join(s, get_value(key));
 		if (key)
@@ -74,7 +75,8 @@ char	*replace_variables(char *str)
 		free(key);
 		r = str_chr(p, '$');
 	}
-	s = str_join(s, str_dup(p));
+	if (*p != '\0')
+		s = str_join(s, str_dup(p));
 	free(str);
 	return (s);
 }

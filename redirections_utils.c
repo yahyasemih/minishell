@@ -25,7 +25,7 @@ static void	process_heredoc(char *delimiter, int write_fd, int should_expand)
 		&& str_cmp(line, delimiter) != 0)
 	{
 		if (should_expand)
-			line = replace_variables(line);
+			line = replace_variables(line, str_dup(""));
 		write(write_fd, line, str_len(line));
 		write(write_fd, "\n", 1);
 		free(line);

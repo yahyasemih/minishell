@@ -68,9 +68,10 @@ void	append_arg(t_command *command, char *arg)
 	char	**args;
 	size_t	i;
 
-	if (command->nb_args == 0)
+	if (arg == NULL)
+		return ;
+	if (command->nb_args++ == 0)
 		command->cmd = str_dup(arg);
-	command->nb_args++;
 	args = (char **)malloc(sizeof(char *) * (command->nb_args + 1));
 	if (args == NULL)
 		return ;

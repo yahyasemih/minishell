@@ -54,7 +54,7 @@ int	handle_quoted_string(t_token **tokens, const char *str, size_t index,
 	{
 		val = str_n_dup(str + index, i);
 		if (q == '"' && str_chr(val, '$') != NULL)
-			val = replace_variables(val);
+			val = replace_variables(val, str_dup(""));
 		last = last_token(*tokens);
 		if (last != NULL && last->type == STRING)
 			last->value = str_join(last->value, val);
@@ -82,11 +82,11 @@ int	handle_simple_string(t_token **tokens, const char *str, size_t index)
 	val = str_n_dup(str + index, i);
 	if (str_chr(val, '$') != NULL
 		&& get_last_non_separator_type(*tokens) != HEREDOC)
-		val = replace_variables(val);
+		val = replace_variables(val, NULL);
 	last = last_token(*tokens);
 	if (last != NULL && last->type == STRING)
 		last->value = str_join(last->value, val);
-	else
+	else if (val != NULL)
 		add_token(tokens, val);
 	return (i);
 }
