@@ -79,6 +79,8 @@ int	export_builtin(t_command *command)
 	char	*value;
 	int		return_value;
 
+	if (command->nb_args == 1)
+		dump_env();
 	i = 1;
 	return_value = 0;
 	while (i < command->nb_args)
@@ -90,10 +92,8 @@ int	export_builtin(t_command *command)
 		{
 			value = get_value(command->args[i]);
 			if (value != NULL)
-			{
 				set_env(key, value);
-				free(value);
-			}
+			free(value);
 		}
 		free(key);
 		++i;

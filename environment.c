@@ -105,3 +105,20 @@ void	unset_env(const char *name)
 		env_it = env_it->next;
 	}
 }
+
+void	dump_env(void)
+{
+	t_env	*env_it;
+	char	*key;
+	char	*value;
+
+	env_it = g_minishell_ctx.env_list;
+	while (env_it != NULL)
+	{
+		value = str_chr(env_it->entry, '=') + 1;
+		key = str_n_dup(env_it->entry, value - env_it->entry - 1);
+		printf("declare -x %s=\"%s\"\n", key, value);
+		free(key);
+		env_it = env_it->next;
+	}
+}

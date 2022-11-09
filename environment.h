@@ -22,5 +22,6 @@ typedef struct env_s
 void	set_env(const char *name, const char *value);
 char	*get_env(const char *name);
 void	unset_env(const char *name);
+void	dump_env(void);
 
 #endif //ENVIRONMENT_H
