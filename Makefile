@@ -2,29 +2,29 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 SRCS = minishell.c \
-	tokens.c \
-	parsing.c \
-	utilities.c \
-	commands.c \
-	signals.c \
-	execution.c \
-	cd_builtin.c \
-	env_builtin.c \
-	pwd_builtin.c \
-	echo_builtin.c \
-	exit_builtin.c \
-	unset_builtin.c \
-	export_builtin.c \
-	environment.c \
-	string_utils.c \
-	parsing_utils.c \
-	builtins_utils.c \
-	execution_utils.c \
-	environment_utils.c \
-	env_variables_utils.c \
-	redirections_utils.c
+	builtins/cd_builtin.c \
+	builtins/env_builtin.c \
+	builtins/pwd_builtin.c \
+	builtins/echo_builtin.c \
+	builtins/exit_builtin.c \
+	builtins/unset_builtin.c \
+	builtins/export_builtin.c \
+	builtins/builtins_utils.c \
+	environment/environment.c \
+	environment/environment_utils.c \
+	environment/env_variables_utils.c \
+	execution/signals.c \
+	execution/execution.c \
+	execution/execution_utils.c \
+	misc/utilities.c \
+	misc/string_utils.c \
+	parsing/tokens.c \
+	parsing/parsing.c \
+	parsing/commands.c \
+	parsing/parsing_utils.c \
+	parsing/redirections_utils.c
 
-INC = -I$(HOME)/.brew/Cellar/readline/8.2.1/include
+INC = -I$(HOME)/.brew/Cellar/readline/8.2.1/include -Iincludes
 LIB = -L$(HOME)/.brew/Cellar/readline/8.2.1/lib
 
 DEPS = $(patsubst %.c,%.d,$(SRCS))
