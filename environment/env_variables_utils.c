@@ -26,7 +26,7 @@ static char	*get_var_name(char *str)
 {
 	int	i;
 
-	if (is_digit(str[0]) || str[0] == '$' || str[0] == '?')
+	if (is_digit(str[0]) || str[0] == '?')
 		return (str_n_dup(str, 1));
 	if (str[0] != '_' && !is_alpha(str[0]))
 		return (NULL);
@@ -44,8 +44,6 @@ static char	*get_value(char *key)
 		return (str_dup("minish"));
 	else if (*key == '?')
 		return (int_to_str(g_minishell_ctx.exit_status));
-	else if (*key == '$')
-		return (int_to_str(getpid()));
 	else if (get_env(key) != NULL)
 		return (str_dup(get_env(key)));
 	else
