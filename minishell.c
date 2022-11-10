@@ -79,11 +79,13 @@ static t_command	*get_commands(const char *line)
 	return (commands);
 }
 
-static void	init_minishell(char **env)
+static void	init_minishell(int argc, char **argv, char **env)
 {
 	char	*p;
 	int		sh_lvl;
 
+	if (argc != 1)
+		exit(printf("Usage: %s with no argument\n", argv[0]));
 	g_minishell_ctx.env_list = generate_env(env);
 	if (getenv("PWD") == NULL)
 	{
@@ -103,7 +105,6 @@ static void	init_minishell(char **env)
 	set_env("SHLVL", p);
 	free(p);
 	g_minishell_ctx.exit_status = 0;
-	g_minishell_ctx.is_executing = 0;
 	install_signal_handlers();
 }
 
@@ -112,11 +113,10 @@ int	main(int argc, char **argv, char **env)
 	char		*line;
 	t_command	*commands;
 
-	if (argc != 1)
-		exit(printf("Usage: %s with no argument\n", argv[0]));
-	init_minishell(env);
+	init_minishell(argc, argv, env);
 	while (1)
 	{
+		g_minishell_ctx.is_executing = 0;
 		g_minishell_ctx.should_execute = 1;
 		g_minishell_ctx.is_cancelled = 0;
 		line = readline("minish-1.0$ ");
@@ -133,5 +133,6 @@ int	main(int argc, char **argv, char **env)
 		free(line);
 	}
 	clear_env_list();
+	write(1, "exit\n", 5);
 	return (g_minishell_ctx.exit_status);
 }
